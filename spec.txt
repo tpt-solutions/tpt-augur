@@ -1,0 +1,34 @@
+# TPT Augur: Probabilistic Programming Language
+**Version:** 1.0.0  
+**Status:** Design Phase  
+**Maintainer:** TPT Solutions  
+
+## 1. Executive Summary & Purpose
+**TPT Augur** is a modern, hardware-accelerated probabilistic programming language designed to natively handle uncertainty, Bayesian inference, and stochastic modeling. 
+
+Historically, probabilistic programming has been relegated to clunky Python libraries (like Pyro or Stan) that suffer from severe performance bottlenecks, or highly specialized academic languages that lack modern developer tooling. **TPT Augur** solves this by baking probability directly into the syntax and compiling natively to high-performance hardware via the **TPT GPU** abstraction layer. 
+
+Like its namesake, Augur reads the "signs" of noisy, uncertain data to predict the most likely future states. 
+
+**Core Purpose:** To allow developers and data scientists to write code where variables are probability distributions rather than static values, and to execute massive parallel sampling (like Markov Chain Monte Carlo) at hardware speeds.
+
+## 2. Core Language Features
+* **Distribution-Native Syntax:** Variables are defined as distributions (e.g., `let temp ~ Normal(0, 1)`). Standard math operations automatically propagate uncertainty through the calculation.
+* **Native Inference Engines:** The compiler includes built-in inference algorithms (Hamiltonian Monte Carlo, Variational Inference, Particle Filters) that are automatically selected based on the model's topology.
+* **Hardware-Agnostic Execution:** Augur code compiles directly to TPT GPU, allowing probabilistic sampling to run in parallel across NVIDIA, AMD, or Apple Silicon without writing custom CUDA kernels.
+* **Deterministic Fallbacks:** Augur allows seamless mixing of deterministic logic (standard `if/else`) and probabilistic logic, making it safe for production systems that require both exactness and uncertainty estimation.
+
+## 3. Technology Stack
+| Layer | Technology / Approach | Rationale |
+| :--- | :--- | :--- |
+| **Compiler Frontend** | **Tree-sitter / LLVM** | Tree-sitter for fast, error-tolerant parsing; LLVM for robust optimization passes. |
+| **Compiler Backend** | **MLIR (Multi-Level IR)** | MLIR allows us to create custom probabilistic optimization passes before lowering the code to hardware-specific instructions. |
+| **Runtime Engine** | **Rust** | Provides memory safety, zero-cost abstractions, and fearless concurrency for the inference engines. |
+| **Hardware Execution** | **TPT GPU** | Augur acts as a primary "citizen" on TPT GPU, translating probabilistic math into highly optimized tensor operations. |
+| **Package Management** | **Cargo (via Rust FFI)** | Leveraging Rust's mature ecosystem for core math libraries, while providing an `augur-pkg` wrapper for Augur-specific modules. |
+| **Developer Tooling** | **LSP (Language Server Protocol)** | To provide IDE support (VS Code, Neovim) with real-time type-checking for distributions and inference graph visualization. |
+
+## 4. Integration with TPT Ecosystem
+* **TPT GPU:** Augur is the "math" layer that feeds directly into TPT GPU's compute abstraction.
+* **TPT Keystone DB:** Augur can natively query TPT Keystone DB to update prior distributions based on real-time relational or vector data.
+* **TPT Locus:** Locus can defer complex decision-making to Augur to calculate the *probability of success* for different agent strategies before executing them.
