@@ -1,0 +1,14 @@
+[package]
+name = "augur-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur inference runtime: MH, HMC, variational, and particle-filter engines"
+repository.workspace = true
+
+[dependencies]
+augur-frontend = { workspace = true }
+augur-ir = { workspace = true }
+augur-std = { workspace = true }
+rand = { workspace = true }
+thiserror = { workspace = true }

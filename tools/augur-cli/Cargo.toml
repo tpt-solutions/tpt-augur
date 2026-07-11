@@ -1,0 +1,19 @@
+[package]
+name = "augur-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur command-line interface: build, run, check, and format models"
+repository.workspace = true
+
+[[bin]]
+name = "augur"
+path = "src/main.rs"
+
+[dependencies]
+augur-frontend = { workspace = true }
+augur-ir = { workspace = true }
+augur-runtime = { workspace = true }
+augur-std = { workspace = true }
+clap = { workspace = true }
+anyhow = { workspace = true }

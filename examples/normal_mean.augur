@@ -1,0 +1,2 @@
+let mu ~ Normal(0, 1)
+observe Normal(mu, 1) = 0.5

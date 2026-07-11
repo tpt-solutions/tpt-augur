@@ -1,0 +1,11 @@
+# AR(1) time-series filtering: y_t = a + b * y_{t-1} + noise
+let a ~ Normal(0, 1)
+let b ~ Normal(0.5, 0.2)
+let sigma ~ HalfNormal(0.5)
+
+# Seed observation and a short noisy series.
+observe Normal(a + b * 0.0, sigma) = 0.10
+observe Normal(a + b * 0.10, sigma) = 0.32
+observe Normal(a + b * 0.32, sigma) = 0.28
+observe Normal(a + b * 0.28, sigma) = 0.55
+observe Normal(a + b * 0.55, sigma) = 0.61

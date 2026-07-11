@@ -1,0 +1,15 @@
+[package]
+name = "augur-ir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur typed IR: lowering, type-checking, and uncertainty propagation"
+repository.workspace = true
+
+[dependencies]
+augur-frontend = { workspace = true }
+augur-std = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]

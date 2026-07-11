@@ -1,0 +1,12 @@
+[package]
+name = "augur-pkg"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur package manifest format and registry wrapper"
+repository.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+toml = "0.8"
+thiserror = { workspace = true }

@@ -1,0 +1,13 @@
+# Bayesian linear regression: y = alpha + beta * x + noise
+# Prior beliefs on the intercept, slope, and observation noise.
+let alpha ~ Normal(0, 10)
+let beta ~ Normal(0, 10)
+let sigma ~ HalfNormal(1)
+
+# Conditioning on a handful of observed (x, y) pairs. The deterministic
+# combination `alpha + beta * x` carries the uncertainty of both priors into
+# the likelihood automatically.
+observe Normal(alpha + beta * 1.0, sigma) = 2.0
+observe Normal(alpha + beta * 2.0, sigma) = 2.8
+observe Normal(alpha + beta * 3.0, sigma) = 4.1
+observe Normal(alpha + beta * 4.0, sigma) = 4.9
