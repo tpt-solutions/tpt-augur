@@ -2,9 +2,13 @@
 members = [
     "compiler/augur-frontend",
     "compiler/augur-ir",
+    "compiler/augur-mlir",
     "runtime/augur-runtime",
     "stdlib/augur-std",
     "pkg/augur-pkg",
+    "integration/augur-tpt",
+    "integration/augur-locus",
+    "integration/augur-keystone",
     "tools/augur-cli",
 ]
 resolver = "2"
@@ -20,6 +24,7 @@ repository = "https://github.com/PhillipC05/tpt-augur"
 [workspace.dependencies]
 augur-frontend = { path = "compiler/augur-frontend" }
 augur-ir = { path = "compiler/augur-ir" }
+augur-mlir = { path = "compiler/augur-mlir" }
 augur-runtime = { path = "runtime/augur-runtime" }
 augur-std = { path = "stdlib/augur-std" }
 augur-pkg = { path = "pkg/augur-pkg" }

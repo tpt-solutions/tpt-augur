@@ -23,20 +23,23 @@ pub fn run_all(model: &Model, opts: &InferOptions) -> Trace {
     let mut observes = Vec::new();
     collect(model, &mut prior_items, &mut observes);
 
-    // Initialise particles by sampling each prior in turn.
+    // Initialise particles by sampling each prior in turn. Earlier priors are
+    // visible to later ones (e.g. `success ~ Bernoulli(p)` sees `p`), so we
+    // accumulate sampled values into the env as we go.
     let d = prior_items.len();
     let mut particles: Vec<Vec<f64>> = Vec::with_capacity(n);
     for _ in 0..n {
-        let env = Env::new();
+        let mut env = Env::new();
         let mut vals = Vec::with_capacity(d);
-        for (dist, _) in &prior_items {
+        for (dist, name) in &prior_items {
             if let Some(d_) = instantiate_dist(dist, &env) {
                 let v = d_.sample(&mut rng);
                 // Apply support constraints for the prior family.
                 let v = apply_support(&d_, v);
+                env.insert(name.clone(), v);
                 vals.push(v);
-                // index maps to prior_order; push under its name too
             } else {
+                env.insert(name.clone(), 0.0);
                 vals.push(0.0);
             }
         }
@@ -83,6 +86,9 @@ pub fn run_all(model: &Model, opts: &InferOptions) -> Trace {
 }
 
 fn apply_support(d: &augur_std::Dist, v: f64) -> f64 {
+    // `clamp`/`max` pass NaN through, so fall back to a support interior point
+    // for any non-finite draw before constraining.
+    let v = if v.is_finite() { v } else { 0.5 };
     match d {
         augur_std::Dist::Beta { .. } => v.clamp(1e-6, 1.0 - 1e-6),
         augur_std::Dist::HalfNormal { .. }

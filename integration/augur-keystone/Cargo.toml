@@ -1,0 +1,17 @@
+[package]
+name = "augur-keystone"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur <-> TPT Keystone DB: query bindings and live prior updates"
+repository.workspace = true
+
+[dependencies]
+augur-frontend = { workspace = true }
+augur-ir = { workspace = true }
+tpt-sdk = { path = "../../../tpt-keystone-db/tpt-sdk" }
+thiserror = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }

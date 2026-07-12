@@ -1,0 +1,13 @@
+[package]
+name = "augur-mlir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Probabilistic MLIR-compatible dialect, optimization passes, and TPTIR lowering for Augur"
+repository.workspace = true
+
+[dependencies]
+augur-frontend = { workspace = true }
+augur-ir = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

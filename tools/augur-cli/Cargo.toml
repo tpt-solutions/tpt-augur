@@ -15,5 +15,7 @@ augur-frontend = { workspace = true }
 augur-ir = { workspace = true }
 augur-runtime = { workspace = true }
 augur-std = { workspace = true }
+augur-mlir = { workspace = true }
+augur-pkg = { workspace = true }
 clap = { workspace = true }
 anyhow = { workspace = true }

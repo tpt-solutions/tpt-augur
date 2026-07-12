@@ -181,9 +181,10 @@ impl Dist {
             }
             Dist::Binomial { n, p } => {
                 let trials = n.round() as u64;
+                let p = p.clamp(1e-12, 1.0 - 1e-12);
                 let mut k = 0;
                 for _ in 0..trials {
-                    if rng.gen_bool(*p) {
+                    if rng.gen_bool(p) {
                         k += 1;
                     }
                 }
@@ -191,7 +192,15 @@ impl Dist {
             }
             Dist::Poisson { rate } => sample_poisson(rng, *rate),
             Dist::Bernoulli { p } => {
-                if rng.gen_bool(*p) {
+                // `gen_bool` rejects p exactly 0/1 and NaN; a Beta-drawn p can
+                // land on those via float rounding, so keep it strictly interior
+                // (and fall back to 0.5 for non-finite values).
+                let p = if p.is_finite() {
+                    p.clamp(1e-12, 1.0 - 1e-12)
+                } else {
+                    0.5
+                };
+                if rng.gen_bool(p) {
                     1.0
                 } else {
                     0.0
