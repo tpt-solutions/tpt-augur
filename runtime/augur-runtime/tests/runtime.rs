@@ -248,6 +248,88 @@ fn transforms_roundtrip() {
 }
 
 #[test]
+fn logit_jacobian_and_dlogjac() {
+    use augur_runtime::transforms::Transform;
+
+    let t = Transform::Logit { lo: -1.0, hi: 3.0 };
+    let j = t.jacobian(0.0);
+    // At u=0, s=0.5, so jacobian = (hi-lo) * 0.5 * 0.5 = 1.0.
+    assert!((j - 1.0).abs() < 1e-12, "j={j}");
+
+    let (_, _, dlj) = t.forward(0.0);
+    assert!((dlj - 0.0).abs() < 1e-12, "dlj={dlj}");
+}
+
+#[test]
+fn transform_for_uniform_and_gamma_family_and_default() {
+    use augur_runtime::transforms::{transform_for, Transform};
+    use augur_frontend::ast::Expr;
+
+    // Uniform with valid, non-default bounds.
+    let uniform = Expr::Call {
+        name: "Uniform".into(),
+        args: vec![Expr::Num(2.0), Expr::Num(5.0)],
+    };
+    match transform_for(&uniform) {
+        Transform::Logit { lo, hi } => {
+            assert_eq!(lo, 2.0);
+            assert_eq!(hi, 5.0);
+        }
+        _ => panic!("expected Logit transform"),
+    }
+
+    // Uniform with negated / parenthesised bounds still resolves as constants.
+    let uniform_neg = Expr::Call {
+        name: "Uniform".into(),
+        args: vec![
+            Expr::Neg(Box::new(Expr::Num(3.0))),
+            Expr::Paren(Box::new(Expr::Num(1.0))),
+        ],
+    };
+    match transform_for(&uniform_neg) {
+        Transform::Logit { lo, hi } => {
+            assert_eq!(lo, -3.0);
+            assert_eq!(hi, 1.0);
+        }
+        _ => panic!("expected Logit transform"),
+    }
+
+    // Uniform with non-constant or degenerate (hi <= lo) bounds falls back to (0, 1).
+    let uniform_var = Expr::Call {
+        name: "Uniform".into(),
+        args: vec![Expr::Var("a".into()), Expr::Var("b".into())],
+    };
+    match transform_for(&uniform_var) {
+        Transform::Logit { lo, hi } => {
+            assert_eq!(lo, 0.0);
+            assert_eq!(hi, 1.0);
+        }
+        _ => panic!("expected Logit transform"),
+    }
+
+    // Uniform called with the wrong arity also falls back.
+    let uniform_bad_arity = Expr::Call {
+        name: "Uniform".into(),
+        args: vec![Expr::Num(1.0)],
+    };
+    assert!(matches!(transform_for(&uniform_bad_arity), Transform::Logit { lo, hi } if lo == 0.0 && hi == 1.0));
+
+    // Gamma and Exponential both use the Log transform.
+    let gamma = Expr::Call { name: "Gamma".into(), args: vec![] };
+    assert!(matches!(transform_for(&gamma), Transform::Log));
+    let expo = Expr::Call { name: "Exponential".into(), args: vec![] };
+    assert!(matches!(transform_for(&expo), Transform::Log));
+
+    // Unknown distribution names default to Identity.
+    let unknown = Expr::Call { name: "Frobnicate".into(), args: vec![] };
+    assert!(matches!(transform_for(&unknown), Transform::Identity));
+
+    // Non-Call expressions default to Identity.
+    let not_a_call = Expr::Num(1.0);
+    assert!(matches!(transform_for(&not_a_call), Transform::Identity));
+}
+
+#[test]
 fn grad_log_joint_matches_analytic() {
     let m = model("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5");
     // logp(mu) = -0.5 mu^2 - 0.5 (mu - 0.5)^2 + const
