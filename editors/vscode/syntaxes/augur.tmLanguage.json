@@ -1,0 +1,62 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Augur",
+  "scopeName": "source.augur",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#distributions" },
+    { "include": "#numbers" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.augur",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.augur",
+          "match": "\\b(if|else)\\b"
+        },
+        {
+          "name": "keyword.declaration.augur",
+          "match": "\\b(let|observe)\\b"
+        },
+        {
+          "name": "keyword.operator.distribution.augur",
+          "match": "~"
+        }
+      ]
+    },
+    "distributions": {
+      "patterns": [
+        {
+          "name": "support.function.distribution.augur",
+          "match": "\\b(Normal|HalfNormal|Beta|Gamma|Uniform|Exponential|Binomial|Poisson|Bernoulli)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.augur",
+          "match": "\\b-?\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.augur",
+          "match": "(\\+|\\-|\\*|/|==|!=|>=|<=|>|<|=)"
+        }
+      ]
+    }
+  }
+}

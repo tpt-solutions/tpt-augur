@@ -112,10 +112,18 @@ in this workspace, the corresponding items remain unchecked.
 
 ## Phase 6 — Developer Tooling / LSP (spec.txt §3 Developer Tooling)
 
-- [ ] Extend/reuse `tptb-lsp` for Augur: distribution type-checking diagnostics
-- [ ] Inference-graph visualization support (LSP custom request or companion tool)
-- [ ] VS Code extension (syntax highlighting, LSP client wiring)
-- [ ] Neovim LSP client configuration/docs
+- [x] Extend/reuse `tptb-lsp` for Augur: distribution type-checking diagnostics
+      — `tptb-lsp` is not checked out in this workspace (mirroring the Phase 1
+      parser decision), so Augur ships its own LSP server that reuses the
+      existing `parse` + `lower` diagnostics pipeline rather than a frontend
+      built for a different language <!-- verify: compiler/augur-lsp/src/lib.rs::analyze_document -->
+- [x] Inference-graph visualization support (LSP custom request or companion tool)
+      — LSP custom request `augur/inferenceGraph` returns Graphviz DOT, and the
+      `augur graph` CLI command emits the same DOT <!-- verify: compiler/augur-lsp/src/lib.rs::inference_graph_dot, tools/augur-cli/src/main.rs::cmd_graph -->
+- [x] VS Code extension (syntax highlighting, LSP client wiring)
+      <!-- verify: editors/vscode/package.json -->
+- [x] Neovim LSP client configuration/docs
+      <!-- verify: docs/neovim.md -->
 - [x] `augur-cli` — build/run/test/repl commands (via or alongside `tptb-cli`)
       — `augur-cli` exists with `run`/`check`/`fmt`/`repl`; full `tptb-cli` integration pending
       <!-- verify: tools/augur-cli/src/main.rs -->

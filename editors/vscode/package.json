@@ -1,0 +1,64 @@
+{
+  "name": "augur",
+  "displayName": "Augur",
+  "description": "Language support for the Augur probabilistic programming language (syntax highlighting + LSP).",
+  "version": "0.1.0",
+  "publisher": "tptsolutions",
+  "license": "Apache-2.0 WITH LLVM-exception",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "augur",
+    "probabilistic",
+    "bayesian",
+    "lsp"
+  ],
+  "activationEvents": [
+    "onLanguage:augur"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "augur",
+        "aliases": [
+          "Augur",
+          "augur"
+        ],
+        "extensions": [
+          ".augur"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "augur",
+        "scopeName": "source.augur",
+        "path": "./syntaxes/augur.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "augur.showInferenceGraph",
+        "title": "Augur: Show Inference Graph"
+      }
+    ]
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.82.0",
+    "typescript": "^5.4.0"
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  }
+}

@@ -119,7 +119,7 @@ fn lower_stmt(
 ) {
     match stmt {
         Stmt::Prior { name, dist, span } => {
-            check_dist_expr(dist, bound, diags);
+            check_dist_expr(dist, bound, diags, *span);
             if bound.contains(name) {
                 diags.push(Diagnostic::error(
                     format!("variable `{name}` is already defined"),
@@ -135,7 +135,7 @@ fn lower_stmt(
             });
         }
         Stmt::Let { name, value, span } => {
-            check_value_expr(value, bound, diags);
+            check_value_expr(value, bound, diags, *span);
             if bound.contains(name) {
                 diags.push(Diagnostic::error(
                     format!("variable `{name}` is already defined"),
@@ -150,8 +150,8 @@ fn lower_stmt(
             });
         }
         Stmt::Observe { dist, value, span } => {
-            check_dist_expr(dist, bound, diags);
-            check_value_expr(value, bound, diags);
+            check_dist_expr(dist, bound, diags, *span);
+            check_value_expr(value, bound, diags, *span);
             out.push(ModelItem::Observe {
                 dist: dist.clone(),
                 value: value.clone(),
@@ -164,7 +164,7 @@ fn lower_stmt(
             else_body,
             span,
         } => {
-            check_value_expr(cond, bound, diags);
+            check_value_expr(cond, bound, diags, *span);
             let mut then_items = Vec::new();
             let mut else_items = Vec::new();
             for s in then_body {
@@ -185,69 +185,64 @@ fn lower_stmt(
 
 /// Verify a distribution expression references only declared names and has the
 /// right shape for a known family. Degenerate parameter values are warnings.
-fn check_dist_expr(expr: &Expr, bound: &[String], diags: &mut Vec<Diagnostic>) {
+/// `span` is the enclosing statement span, used as the diagnostic location when
+/// the offending expression carries no finer-grained span of its own.
+fn check_dist_expr(expr: &Expr, bound: &[String], diags: &mut Vec<Diagnostic>, span: Span) {
     match expr {
         Expr::Call { name, args, .. } => {
             let expected = known_dist_arity(name);
             match expected {
                 Some(arity) if args.len() != arity => diags.push(Diagnostic::error(
                     format!("`{name}` expects {arity} argument(s), found {}", args.len()),
-                    expr_span(expr),
+                    span,
                 )),
                 None => diags.push(Diagnostic::error(
                     format!("`{name}` is not a known distribution"),
-                    expr_span(expr),
+                    span,
                 )),
                 _ => {}
             }
             for a in args {
-                check_value_expr(a, bound, diags);
+                check_value_expr(a, bound, diags, span);
             }
-            check_degenerate_literal(expr, diags);
+            check_degenerate_literal(expr, diags, span);
         }
         _ => diags.push(Diagnostic::error(
             "expected a distribution constructor (e.g. `Normal(0, 1)`)",
-            expr_span(expr),
+            span,
         )),
     }
 }
 
-fn check_value_expr(expr: &Expr, bound: &[String], diags: &mut Vec<Diagnostic>) {
+fn check_value_expr(expr: &Expr, bound: &[String], diags: &mut Vec<Diagnostic>, span: Span) {
     match expr {
         Expr::Num(_) => {}
         Expr::Var(name) => {
             if !bound.contains(name) {
                 diags.push(Diagnostic::error(
                     format!("use of undeclared variable `{name}`"),
-                    expr_span(expr),
+                    span,
                 ));
             }
         }
-        Expr::Neg(e) | Expr::Paren(e) => check_value_expr(e, bound, diags),
+        Expr::Neg(e) | Expr::Paren(e) => check_value_expr(e, bound, diags, span),
         Expr::Bin { lhs, rhs, .. } => {
-            check_value_expr(lhs, bound, diags);
-            check_value_expr(rhs, bound, diags);
+            check_value_expr(lhs, bound, diags, span);
+            check_value_expr(rhs, bound, diags, span);
         }
         Expr::Cmp { lhs, rhs, .. } => {
-            check_value_expr(lhs, bound, diags);
-            check_value_expr(rhs, bound, diags);
+            check_value_expr(lhs, bound, diags, span);
+            check_value_expr(rhs, bound, diags, span);
         }
         Expr::Call { name, args, .. } => {
             diags.push(Diagnostic::error(
                 format!("`{name}(..)` is a distribution, not a numeric value"),
-                expr_span(expr),
+                span,
             ));
             for a in args {
-                check_value_expr(a, bound, diags);
+                check_value_expr(a, bound, diags, span);
             }
         }
-    }
-}
-
-fn expr_span(expr: &Expr) -> Span {
-    match expr {
-        Expr::Call { .. } => Span::new(0, 0),
-        _ => Span::new(0, 0),
     }
 }
 
@@ -379,7 +374,7 @@ fn log_joint_items(items: &[ModelItem], env: &mut Env, lp: &mut f64) {
 /// If every parameter of a distribution expression is a compile-time constant,
 /// we can statically flag degenerate/invalid parameters (e.g. `Normal(0, -1)`,
 /// `Beta(0, 1)`, `Uniform(3, 1)`). Non-literal parameters are left to runtime.
-fn check_degenerate_literal(dist_expr: &Expr, diags: &mut Vec<Diagnostic>) {
+fn check_degenerate_literal(dist_expr: &Expr, diags: &mut Vec<Diagnostic>, span: Span) {
     if let Expr::Call { name, args, .. } = dist_expr {
         let mut consts = Vec::new();
         for a in args {
@@ -404,7 +399,7 @@ fn check_degenerate_literal(dist_expr: &Expr, diags: &mut Vec<Diagnostic>) {
         if bad {
             diags.push(Diagnostic::warning(
                 format!("degenerate parameters for `{name}` (non-positive or invalid range)"),
-                expr_span(dist_expr),
+                span,
             ));
         }
     }

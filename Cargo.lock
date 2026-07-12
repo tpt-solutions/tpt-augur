@@ -125,6 +125,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "augur-lsp"
+version = "0.1.0"
+dependencies = [
+ "augur-frontend",
+ "augur-ir",
+ "augur-mlir",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "augur-mlir"
 version = "0.1.0"
 dependencies = [

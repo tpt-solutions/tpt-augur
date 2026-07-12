@@ -7,6 +7,7 @@ use std::process::ExitCode;
 use anyhow::{anyhow, Context, Result};
 use augur_frontend::{format_program, parse};
 use augur_ir::lower;
+use augur_mlir::{build_graph, to_dot};
 use augur_runtime::{select_engine, Engine, InferOptions};
 use clap::{Parser, Subcommand};
 use std::str::FromStr;
@@ -54,6 +55,13 @@ enum Cmd {
     },
     /// Read a model from stdin and run inference on it.
     Repl,
+    /// Emit the probabilistic inference graph (Graphviz DOT) for a model.
+    Graph {
+        file: PathBuf,
+        /// Write DOT to this path instead of stdout.
+        #[arg(short, long)]
+        output: Option<PathBuf>,
+    },
     /// Publish an Augur package (manifest + module sources) to the local registry.
     Publish {
         /// Path to the `Augur.toml` manifest.
@@ -101,6 +109,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
             output,
         } => cmd_build(&file, &entry, &hardware, output.as_ref()),
         Cmd::Repl => cmd_repl(),
+        Cmd::Graph { file, output } => cmd_graph(&file, output.as_ref()),
         Cmd::Publish { manifest, sources } => cmd_publish(&manifest, &sources),
         Cmd::Install {
             name,
@@ -286,6 +295,35 @@ fn cmd_install(name: &str, version: &str, dest: &PathBuf) -> Result<ExitCode> {
         .with_context(|| format!("installing {name}@{version}"))?;
     for p in &installed {
         println!("installed {}", p.display());
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+fn cmd_graph(file: &PathBuf, output: Option<&PathBuf>) -> Result<ExitCode> {
+    let src = read_source(file)?;
+    let parsed = parse(&src);
+    if parsed.has_errors() {
+        report_frontend_diags(&parsed.diagnostics);
+        return Ok(ExitCode::FAILURE);
+    }
+    let lowered = lower(&parsed.program);
+    if lowered.diagnostics.iter().any(|d| d.is_error()) {
+        report_ir_diags(&lowered.diagnostics);
+        return Ok(ExitCode::FAILURE);
+    }
+    let graph = build_graph(&lowered.model);
+    let dot = to_dot(&graph);
+    match output {
+        Some(out) => {
+            std::fs::write(out, &dot).with_context(|| format!("writing `{}`", out.display()))?;
+            println!(
+                "wrote inference graph ({} op(s), {} prior(s)) to {}",
+                graph.op_count(),
+                graph.prior_order.len(),
+                out.display()
+            );
+        }
+        None => print!("{dot}"),
     }
     Ok(ExitCode::SUCCESS)
 }

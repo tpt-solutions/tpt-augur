@@ -9,11 +9,13 @@
 pub mod build;
 pub mod codegen;
 pub mod dialect;
+pub mod graphviz;
 pub mod passes;
 
 pub use build::build_graph;
 pub use codegen::emit_tptir;
 pub use dialect::{DistFamily, DistInstance, Graph, Op, ScalarOp, ValueId};
+pub use graphviz::to_dot;
 pub use passes::{default_pipeline, Pass, PassPipeline};
 
 /// Convenience entry point: build the dialect graph from a type-checked

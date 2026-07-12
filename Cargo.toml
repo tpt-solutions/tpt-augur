@@ -10,6 +10,7 @@ members = [
     "integration/augur-locus",
     "integration/augur-keystone",
     "tools/augur-cli",
+    "compiler/augur-lsp",
 ]
 resolver = "2"
 
