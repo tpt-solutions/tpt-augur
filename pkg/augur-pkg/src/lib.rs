@@ -171,7 +171,12 @@ impl Registry {
     /// Resolve and materialize `name@version` into `dest`: writes the package's
     /// module sources (preserving their relative paths) and a resolved
     /// `Augur.toml` manifest. Returns the paths that were written.
-    pub fn install(&self, name: &str, version: &str, dest: &Path) -> Result<Vec<PathBuf>, PkgError> {
+    pub fn install(
+        &self,
+        name: &str,
+        version: &str,
+        dest: &Path,
+    ) -> Result<Vec<PathBuf>, PkgError> {
         let pkg = self.get(name, version)?;
         std::fs::create_dir_all(dest)?;
         let mut written = Vec::new();

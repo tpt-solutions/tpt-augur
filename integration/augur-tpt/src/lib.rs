@@ -63,9 +63,7 @@ impl HardwareTarget {
     pub fn tptc_target(&self) -> &'static str {
         match self {
             HardwareTarget::Cpu => "text",
-            HardwareTarget::Nvidia | HardwareTarget::Amd | HardwareTarget::AppleSilicon => {
-                "tptisa"
-            }
+            HardwareTarget::Nvidia | HardwareTarget::Amd | HardwareTarget::AppleSilicon => "tptisa",
         }
     }
 
@@ -270,7 +268,11 @@ mod tests {
     #[test]
     fn accelerator_handoff_dispatches_without_error() {
         let m = model("let mu ~ Normal(0, 1)");
-        for hw in [HardwareTarget::Nvidia, HardwareTarget::Amd, HardwareTarget::AppleSilicon] {
+        for hw in [
+            HardwareTarget::Nvidia,
+            HardwareTarget::Amd,
+            HardwareTarget::AppleSilicon,
+        ] {
             let h = handoff_model(&m, "model", hw).unwrap();
             assert_eq!(h.hardware, hw);
         }

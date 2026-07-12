@@ -4,8 +4,9 @@
 use augur_frontend::parse;
 use augur_ir::lower;
 use augur_mlir::{
-    build_graph, compile_model_to_tptir, default_pipeline, emit_tptir, to_dot,
+    build_graph, compile_model_to_tptir, default_pipeline,
     dialect::{DistFamily, Graph, Op, ScalarOp},
+    emit_tptir, to_dot,
 };
 
 fn graph(src: &str) -> Graph {
@@ -24,7 +25,10 @@ fn graph(src: &str) -> Graph {
 fn build_emits_sample_and_observe_ops() {
     let g = graph("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5");
     assert_eq!(g.prior_order, vec!["mu".to_string()]);
-    assert!(g.ops.iter().any(|op| matches!(op, Op::Sample { name, .. } if name == "mu")));
+    assert!(g
+        .ops
+        .iter()
+        .any(|op| matches!(op, Op::Sample { name, .. } if name == "mu")));
     assert!(g.ops.iter().any(|op| matches!(op, Op::Observe { .. })));
     assert!(g.ops.iter().any(|op| matches!(op, Op::Dist { .. })));
 }
@@ -38,8 +42,17 @@ fn build_lowers_if_to_cond() {
 #[test]
 fn build_records_let_bindings() {
     let g = graph("let mu ~ Normal(0, 1)\nlet shifted = mu + 1");
-    assert!(g.ops.iter().any(|op| matches!(op, Op::Let { name, .. } if name == "shifted")));
-    assert!(g.ops.iter().any(|op| matches!(op, Op::Scalar { op: ScalarOp::Add(..), .. })));
+    assert!(g
+        .ops
+        .iter()
+        .any(|op| matches!(op, Op::Let { name, .. } if name == "shifted")));
+    assert!(g.ops.iter().any(|op| matches!(
+        op,
+        Op::Scalar {
+            op: ScalarOp::Add(..),
+            ..
+        }
+    )));
 }
 
 #[test]
@@ -118,18 +131,16 @@ fn pipeline_constant_folds_arithmetic() {
 #[test]
 fn pipeline_preserves_model_semantics() {
     let mut g = graph("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5");
-    let changes = default_pipeline().run(&mut g);
+    default_pipeline().run(&mut g);
     // Pipeline is a no-op structurally here but must keep the sample/observe.
     assert!(g.ops.iter().any(|op| matches!(op, Op::Sample { .. })));
     assert!(g.ops.iter().any(|op| matches!(op, Op::Observe { .. })));
-    assert!(changes == 0 || changes > 0);
 }
 
 #[test]
 fn compile_to_tptir_end_to_end() {
     let m = lower(&parse("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5").program);
-    let (text, changes) = compile_model_to_tptir(&m.model, "model", "cpu");
+    let (text, _changes) = compile_model_to_tptir(&m.model, "model", "cpu");
     assert!(text.contains("func.func @model"));
     assert!(text.contains("\"augur.sample\""));
-    assert!(changes == 0 || changes > 0);
 }

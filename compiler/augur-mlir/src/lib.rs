@@ -22,7 +22,11 @@ pub use passes::{default_pipeline, Pass, PassPipeline};
 /// model, run the default optimization pipeline, and emit TPTIR text.
 /// Returns the emitted text alongside the number of changes the pipeline
 /// made (useful for CLI diagnostics).
-pub fn compile_model_to_tptir(model: &augur_ir::Model, entry_name: &str, hardware: &str) -> (String, usize) {
+pub fn compile_model_to_tptir(
+    model: &augur_ir::Model,
+    entry_name: &str,
+    hardware: &str,
+) -> (String, usize) {
     let mut graph = build_graph(model);
     let changes = default_pipeline().run(&mut graph);
     (emit_tptir(&graph, entry_name, hardware), changes)
@@ -38,7 +42,10 @@ mod tests {
         let parsed = parse("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5");
         assert!(!parsed.has_errors());
         let lowered = augur_ir::lower(&parsed.program);
-        assert!(!lowered.diagnostics.iter().any(augur_ir::Diagnostic::is_error));
+        assert!(!lowered
+            .diagnostics
+            .iter()
+            .any(augur_ir::Diagnostic::is_error));
         let (text, _changes) = compile_model_to_tptir(&lowered.model, "model", "cpu");
         assert!(text.contains("func.func @model"));
     }

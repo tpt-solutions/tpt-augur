@@ -185,7 +185,10 @@ mod tests {
         assert!(!parsed.has_errors(), "{:?}", parsed.diagnostics);
         let lowered = lower(&parsed.program);
         assert!(
-            !lowered.diagnostics.iter().any(augur_ir::Diagnostic::is_error),
+            !lowered
+                .diagnostics
+                .iter()
+                .any(augur_ir::Diagnostic::is_error),
             "{:?}",
             lowered.diagnostics
         );
@@ -211,7 +214,10 @@ mod tests {
         assert!(dot.contains("sample mu"));
         assert!(!dot.contains("cluster_then_:n"));
         // Cross-cluster edge resolves to the outer sample node.
-        assert!(dot.contains("-> cluster_then_") && dot.contains("n3 -> cluster_then_") || dot.contains("cluster_then_") );
+        assert!(
+            dot.contains("-> cluster_then_") && dot.contains("n3 -> cluster_then_")
+                || dot.contains("cluster_then_")
+        );
     }
 
     #[test]

@@ -111,11 +111,16 @@ fn scalar_parts(sop: &ScalarOp) -> (&'static str, Vec<ValueId>) {
 }
 
 fn operand_list(ids: &[ValueId]) -> String {
-    ids.iter().map(|id| format!("%{id}")).collect::<Vec<_>>().join(", ")
+    ids.iter()
+        .map(|id| format!("%{id}"))
+        .collect::<Vec<_>>()
+        .join(", ")
 }
 
 fn type_list(count: usize, ty: &str) -> String {
-    std::iter::repeat(ty).take(count).collect::<Vec<_>>().join(", ")
+    std::iter::repeat_n(ty, count)
+        .collect::<Vec<_>>()
+        .join(", ")
 }
 
 #[cfg(test)]
@@ -130,7 +135,10 @@ mod tests {
         assert!(!parsed.has_errors(), "{:?}", parsed.diagnostics);
         let lowered = augur_ir::lower(&parsed.program);
         assert!(
-            !lowered.diagnostics.iter().any(augur_ir::Diagnostic::is_error),
+            !lowered
+                .diagnostics
+                .iter()
+                .any(augur_ir::Diagnostic::is_error),
             "{:?}",
             lowered.diagnostics
         );
