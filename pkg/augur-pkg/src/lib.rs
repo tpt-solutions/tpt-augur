@@ -4,8 +4,10 @@
 //! wrapper over the underlying Cargo/Rust FFI. A package is described by an
 //! `Augur.toml` manifest; this crate parses it and prepares a dependency
 //! specification that the host Cargo workspace can consume, and additionally
-//! provides a local-registry publish/install flow (see TODO.md Phase 7) for
-//! sharing Augur module packages without a remote registry server.
+//! provides a local-registry publish/install flow for sharing Augur module
+//! packages without a remote registry server.
+
+#![warn(missing_docs)]
 
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};

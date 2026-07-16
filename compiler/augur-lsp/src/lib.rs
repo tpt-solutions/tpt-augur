@@ -6,6 +6,8 @@
 //! own small LSP server that reuses the diagnostics machinery rather than
 //! depending on a frontend built for a different language.
 
+#![warn(missing_docs)]
+
 use augur_frontend::{lexer, parse, Severity};
 use augur_ir::lower;
 use augur_mlir::{build_graph, to_dot};

@@ -5,6 +5,8 @@
 //! particle filter — dispatched through [`run`]. Engine selection is automatic
 //! from model topology (see [`select_engine`]) unless overridden.
 
+#![warn(missing_docs)]
+
 pub mod common;
 pub mod engine;
 pub mod hmc;

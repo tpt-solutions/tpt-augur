@@ -6,15 +6,21 @@
 
 use augur_ir::Model;
 
+/// Inference algorithm used to draw posterior samples.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Engine {
+    /// Random-walk Metropolis–Hastings MCMC.
     MetropolisHastings,
+    /// Hamiltonian Monte Carlo (gradient-based MCMC).
     Hmc,
+    /// Mean-field variational inference (optimisation-based approximation).
     Variational,
+    /// Bootstrap particle filter / sequential Monte Carlo.
     ParticleFilter,
 }
 
 impl Engine {
+    /// Short string identifier (`"mh"`, `"hmc"`, `"vi"`, or `"pf"`).
     pub fn as_str(&self) -> &'static str {
         match self {
             Engine::MetropolisHastings => "mh",
@@ -39,12 +45,18 @@ impl std::str::FromStr for Engine {
     }
 }
 
+/// Configuration passed to every inference engine.
 #[derive(Debug, Clone)]
 pub struct InferOptions {
+    /// Engine override; `None` lets [`select_engine`] choose automatically.
     pub engine: Option<Engine>,
+    /// Number of independent Markov chains to run in parallel.
     pub num_chains: usize,
+    /// Warm-up (burn-in) samples discarded before collection begins.
     pub num_warmup: usize,
+    /// Post-warm-up samples collected per chain.
     pub num_samples: usize,
+    /// RNG seed for reproducibility.
     pub seed: u64,
     /// HMC / MH step size (proposal scale).
     pub step_size: f64,

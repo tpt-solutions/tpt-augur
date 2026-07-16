@@ -1,0 +1,83 @@
+name: Publish to crates.io
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  publish:
+    name: Publish crates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout tpt-locus (sibling dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: tpt-solutions/tpt-locus
+          path: ../tpt-locus
+
+      - name: Checkout tpt-keystone-db (sibling dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: tpt-solutions/tpt-keystone-db
+          path: ../tpt-keystone-db
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      # Batch 1: no internal workspace deps
+      - name: Publish batch 1 (augur-std, augur-frontend, augur-pkg)
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          cargo publish -p augur-std --no-verify
+          cargo publish -p augur-frontend --no-verify
+          cargo publish -p augur-pkg --no-verify
+
+      - name: Wait for crates.io index propagation
+        run: sleep 20
+
+      # Batch 2: depends on augur-frontend + augur-std
+      - name: Publish batch 2 (augur-ir)
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p augur-ir --no-verify
+
+      - name: Wait for crates.io index propagation
+        run: sleep 20
+
+      # Batch 3: depends on augur-frontend + augur-ir (+ augur-std)
+      - name: Publish batch 3 (augur-mlir, augur-runtime)
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          cargo publish -p augur-mlir --no-verify
+          cargo publish -p augur-runtime --no-verify
+
+      - name: Wait for crates.io index propagation
+        run: sleep 20
+
+      # Batch 4: depends on augur-frontend + augur-ir + augur-mlir/augur-runtime
+      - name: Publish batch 4 (augur-lsp, augur-tpt)
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          cargo publish -p augur-lsp --no-verify
+          cargo publish -p augur-tpt --no-verify
+
+      - name: Wait for crates.io index propagation
+        run: sleep 20
+
+      # Batch 5: depends on everything above
+      - name: Publish batch 5 (augur-cli)
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p augur-cli --no-verify

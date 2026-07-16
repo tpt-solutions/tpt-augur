@@ -1,22 +1,21 @@
 //! Augur ↔ tpt-gpu interop.
 //!
 //! Augur lowers probabilistic models to its own `augur.*` TPTIR dialect
-//! (see `augur-mlir`); this crate is the hand-off boundary into the existing
-//! tpt-gpu toolchain (`../tpt-gpu/layer3_tptc` / `layer7_tptb`). It:
+//! (see [`augur_mlir`]); this crate is the hand-off boundary into the
+//! tpt-gpu hardware toolchain. It:
 //!
 //! * selects a hardware target (NVIDIA / AMD / Apple Silicon / CPU) for the
 //!   `augur.hardware` attribute that downstream tpt-gpu dispatch reads,
-//! * emits Augur TPTIR and runs the structural handoff validation that the
-//!   `layer3_tptc` TPTIR consumer expects (block/region well-formedness), and
+//! * emits Augur TPTIR and validates the structural well-formedness
+//!   (block/region structure) that the tpt-gpu TPTIR consumer expects, and
 //! * measures parallel sampling throughput so per-hardware benchmarks have a
-//!   real, measured baseline (the CPU path is measured here; GPU targets are
-//!   dispatched to tpt-gpu's execution layers, whose on-device timing is filled
-//!   in by `layer4_tptr` once the `augur` dialect is registered there).
+//!   real, measured baseline (the CPU path is measured directly; GPU targets
+//!   are dispatched to the tpt-gpu execution layers).
 //!
-//! Note: the next step in the tpt-gpu direction is registering the `augur`
-//! dialect inside `../tpt-gpu/layer3_tptc` so its Rust frontend
-//! (`tptc-rs::compile`) consumes the emitted module directly. Until then this
-//! crate owns the interface contract and validates the module structurally.
+//! This crate owns the interface contract between the Augur compiler and the
+//! tpt-gpu hardware backend.
+
+#![warn(missing_docs)]
 
 use std::str::FromStr;
 use std::time::Instant;

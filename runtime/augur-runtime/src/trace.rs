@@ -28,29 +28,44 @@ impl Trace {
     }
 }
 
+/// Per-parameter posterior summary statistics.
 #[derive(Debug, Clone)]
 pub struct ParamSummary {
+    /// Parameter name (matching the `let name ~` declaration).
     pub name: String,
+    /// Posterior mean.
     pub mean: f64,
+    /// Posterior standard deviation.
     pub sd: f64,
+    /// 2.5th percentile (lower bound of the 95% credible interval).
     pub q2_5: f64,
+    /// Posterior median (50th percentile).
     pub q50: f64,
+    /// 97.5th percentile (upper bound of the 95% credible interval).
     pub q97_5: f64,
     /// Gelman–Rubin convergence diagnostic (1.0 == converged).
     pub rhat: f64,
+    /// Effective sample size.
     pub ess: f64,
 }
 
+/// Complete result of a posterior inference run.
 #[derive(Debug, Clone)]
 pub struct InferenceResult {
+    /// Engine that produced these samples.
     pub engine: Engine,
+    /// Prior variable names in sampling-vector order.
     pub param_names: Vec<String>,
+    /// Per-parameter summary statistics.
     pub summaries: Vec<ParamSummary>,
+    /// Total post-warm-up samples collected across all chains.
     pub num_samples: usize,
+    /// Number of independent chains.
     pub num_chains: usize,
 }
 
 impl InferenceResult {
+    /// Return the posterior mean for `name`, or `None` if the variable was not sampled.
     pub fn mean_of(&self, name: &str) -> Option<f64> {
         self.summaries
             .iter()

@@ -6,6 +6,8 @@
 //! -> [`passes::default_pipeline`] -> [`codegen::emit_tptir`] -> TPTIR text,
 //! consumable by `../tpt-gpu/layer3_tptc`'s TPTIR toolchain.
 
+#![warn(missing_docs)]
+
 pub mod build;
 pub mod codegen;
 pub mod dialect;

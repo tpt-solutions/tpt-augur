@@ -4,6 +4,8 @@
 //! produce a usable parse tree (see [`parse`]). This is the foundation that the
 //! type-checker, formatter, and LSP build on.
 
+#![warn(missing_docs)]
+
 pub mod ast;
 pub mod diagnostics;
 pub mod format;

@@ -1,4 +1,14 @@
-//! `augur` command-line interface.
+//! `augur` — command-line interface for the Augur probabilistic programming language.
+//!
+//! Subcommands:
+//! - `run <file>` — compile and run inference on an `.augur` model, printing posterior summaries
+//! - `check <file>` — type-check without running inference; report errors and warnings
+//! - `fmt <file>` — reformat an `.augur` source file in-place (canonical style)
+//! - `build <file>` — compile to TPTIR for the hardware backend
+//! - `graph <file>` — emit the inference graph in Graphviz DOT format
+//! - `repl` — interactive read-eval-print loop
+//! - `publish <manifest>` — publish an Augur package to the local registry
+//! - `install <name>` — install a package from the local registry
 
 use std::io::Read;
 use std::path::{Path, PathBuf};

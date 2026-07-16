@@ -23,6 +23,7 @@ authors = ["TPT Solutions"]
 repository = "https://github.com/PhillipC05/tpt-augur"
 homepage = "https://github.com/PhillipC05/tpt-augur"
 readme = "README.md"
+rust-version = "1.70.0"
 
 [workspace.dependencies]
 augur-frontend = { path = "compiler/augur-frontend" }

@@ -1,5 +1,10 @@
 # TPT Augur
 
+[![Crates.io](https://img.shields.io/crates/v/augur-runtime)](https://crates.io/crates/augur-runtime)
+[![docs.rs](https://img.shields.io/docsrs/augur-runtime)](https://docs.rs/augur-runtime)
+[![CI](https://github.com/PhillipC05/tpt-augur/actions/workflows/ci.yml/badge.svg)](https://github.com/PhillipC05/tpt-augur/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0_WITH_LLVM--exception-blue)](LICENSE)
+
 **A hardware-accelerated probabilistic programming language.**
 
 Augur lets you write variables as *probability distributions* instead of

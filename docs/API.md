@@ -71,6 +71,27 @@ Engines (each `run_all(model, opts) -> Trace`): `hmc`, `vi`, `pf`, `mh`.
 | `Manifest::to_toml(&self) -> String` | Serialise back to TOML (round-trips). |
 | `Manifest::to_cargo_deps(&self) -> String` | Render Augur deps as a Cargo `[dependencies]` table (the dependency half of the Cargo/FFI wrapper). |
 
+## `augur-tpt` — hardware interop
+
+| Item | Description |
+| --- | --- |
+| `HardwareTarget::{Cpu, Nvidia, Amd, AppleSilicon}` | Hardware target for tpt-gpu dispatch. `as_str()`, `FromStr` (`"cpu"`, `"nvidia"`, `"amd"`, `"apple"`). |
+| `handoff_model(model, target) -> Handoff` | Compile model to TPTIR, tag the hardware target attribute, validate block/region structure. |
+| `validate_tptir(tptir: &str) -> bool` | Structural validation of TPTIR text (block/region well-formedness). |
+| `benchmark_throughput(model, target, opts) -> ThroughputReport` | Measure parallel sampling throughput (samples/sec) on the chosen target. |
+| `ThroughputReport { target, samples_per_sec, wall_ms }` | Benchmark result. |
+
+## `augur-lsp` — language server
+
+| Item | Description |
+| --- | --- |
+| `analyze_document(src: &str) -> Vec<LspDiagnostic>` | Full parse + type-check of a source string; returns LSP-format diagnostics with line/column ranges. |
+| `hover_at(src: &str, line: u32, col: u32) -> Option<String>` | Markdown hover text for the symbol under the cursor. |
+| `inference_graph_dot(src: &str) -> Option<String>` | Render the posterior inference graph as Graphviz DOT (for IDE graph views). |
+| `LspDiagnostic { message, severity, range }` | LSP diagnostic; `range` uses `LspRange { start, end }` with `LspPosition { line, character }`. |
+
+The standalone LSP binary (`augur-lsp`) speaks the Language Server Protocol over stdin/stdout and can be wired into any LSP-capable editor. See `docs/neovim.md` for an example Neovim config.
+
 ## `augur-cli` — command line
 
 `augur run|check|fmt|repl`. See `README.md` for flags and examples.

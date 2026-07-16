@@ -19,38 +19,51 @@ use serde::{Deserialize, Serialize};
 
 use crate::special::{ln_beta, ln_choose, ln_gamma};
 
+/// Probability distribution over a continuous or discrete sample space.
+///
+/// Each variant carries the named parameters of its family as plain `f64`
+/// values. Use [`Dist::logp`], [`Dist::sample`], and [`Dist::mean`] to work
+/// with a `Dist` at runtime.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum Dist {
+    /// Gaussian distribution N(μ, σ).
     Normal {
         mu: f64,
         sigma: f64,
     },
+    /// Half-normal distribution with scale σ (support: x ≥ 0).
     HalfNormal {
         sigma: f64,
     },
+    /// Beta distribution Beta(α, β) on [0, 1].
     Beta {
         a: f64,
         b: f64,
     },
+    /// Gamma distribution Gamma(shape, rate).
     Gamma {
         shape: f64,
         rate: f64,
     },
+    /// Continuous uniform distribution on [lo, hi].
     Uniform {
         lo: f64,
         hi: f64,
     },
+    /// Exponential distribution Exp(λ) with rate λ.
     Exponential {
         rate: f64,
     },
-    /// `n` is the number of trials (treated as a count), `p` the success prob.
+    /// Binomial distribution Bin(n, p). `n` is the trial count, `p` the success probability.
     Binomial {
         n: f64,
         p: f64,
     },
+    /// Poisson distribution Pois(λ) with rate λ.
     Poisson {
         rate: f64,
     },
+    /// Bernoulli distribution Bernoulli(p) — binary (0/1) outcome.
     Bernoulli {
         p: f64,
     },

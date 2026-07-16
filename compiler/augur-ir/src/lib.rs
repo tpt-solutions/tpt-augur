@@ -2,6 +2,8 @@
 //! type-checking, static analysis of degenerate parameters, and the
 //! uncertainty-propagation evaluation used by the inference engines.
 
+#![warn(missing_docs)]
+
 pub mod lower;
 
 pub use augur_frontend::Expr;
