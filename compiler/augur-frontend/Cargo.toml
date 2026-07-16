@@ -5,9 +5,12 @@ edition.workspace = true
 license.workspace = true
 description = "Augur lexer, AST, and error-tolerant parser"
 repository.workspace = true
+homepage.workspace = true
+readme = "README.md"
+keywords = ["probabilistic-programming", "parser", "lexer", "ast"]
+categories = ["parser-implementations", "compilers"]
 
 [dependencies]
-thiserror = { workspace = true }
 serde = { workspace = true }
 
 [dev-dependencies]

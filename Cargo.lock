@@ -79,7 +79,6 @@ dependencies = [
  "augur-mlir",
  "augur-pkg",
  "augur-runtime",
- "augur-std",
  "clap",
 ]
 
@@ -88,7 +87,6 @@ name = "augur-frontend"
 version = "0.1.0"
 dependencies = [
  "serde",
- "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -98,7 +96,6 @@ dependencies = [
  "augur-frontend",
  "augur-std",
  "serde",
- "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -107,7 +104,6 @@ version = "0.1.0"
 dependencies = [
  "augur-frontend",
  "augur-ir",
- "serde",
  "thiserror 1.0.69",
  "tokio",
  "tpt-sdk",
@@ -131,7 +127,6 @@ dependencies = [
  "augur-frontend",
  "augur-ir",
  "augur-mlir",
- "serde",
  "serde_json",
 ]
 
@@ -142,7 +137,6 @@ dependencies = [
  "augur-frontend",
  "augur-ir",
  "serde",
- "serde_json",
 ]
 
 [[package]]
@@ -163,7 +157,6 @@ dependencies = [
  "augur-ir",
  "augur-std",
  "rand",
- "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -172,7 +165,6 @@ version = "0.1.0"
 dependencies = [
  "rand",
  "serde",
- "thiserror 1.0.69",
 ]
 
 [[package]]

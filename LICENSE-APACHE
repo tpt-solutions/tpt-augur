@@ -186,7 +186,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+   Copyright 2026 TPT Solutions
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -199,17 +199,3 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
-   ---
-
-   LLVM Exceptions to the Apache License 2.0
-
-   As an exception, if, as a result of your compiling your source code, you
-   create an object that is a derivative of this software and link that
-   object with other files to produce an executable, such executable is
-   not a "Derivative Work" of this software, and the LLVM Exceptions to the
-   Apache License 2.0 do not apply to those other files.
-
-   This software is provided under the Apache License 2.0 with the LLVM
-   exceptions. See http://llvm.org/LICENSE.txt for the full text of the
-   exceptions.

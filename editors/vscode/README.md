@@ -1,6 +1,6 @@
 # Augur VS Code Extension
 
-Syntax highlighting and LSP features for the [Augur](https://github.com/PhillipC05/tpt-augur)
+Syntax highlighting and LSP features for the [Augur](https://github.com/tpt-solutions/tpt-augur)
 probabilistic programming language.
 
 ## Features

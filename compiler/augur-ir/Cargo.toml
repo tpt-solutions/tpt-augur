@@ -5,11 +5,14 @@ edition.workspace = true
 license.workspace = true
 description = "Augur typed IR: lowering, type-checking, and uncertainty propagation"
 repository.workspace = true
+homepage.workspace = true
+readme = "README.md"
+keywords = ["probabilistic-programming", "compilers", "type-checking"]
+categories = ["compilers"]
 
 [dependencies]
 augur-frontend = { workspace = true }
 augur-std = { workspace = true }
-thiserror = { workspace = true }
 serde = { workspace = true }
 
 [dev-dependencies]

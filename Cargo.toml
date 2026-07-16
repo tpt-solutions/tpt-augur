@@ -17,18 +17,19 @@ resolver = "2"
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
-license = "Apache-2.0 WITH LLVM-exception"
+license = "MIT OR Apache-2.0"
 description = "TPT Augur: a hardware-accelerated probabilistic programming language"
 authors = ["TPT Solutions"]
-repository = "https://github.com/PhillipC05/tpt-augur"
+repository = "https://github.com/tpt-solutions/tpt-augur"
+homepage = "https://github.com/tpt-solutions/tpt-augur"
 
 [workspace.dependencies]
-augur-frontend = { path = "compiler/augur-frontend" }
-augur-ir = { path = "compiler/augur-ir" }
-augur-mlir = { path = "compiler/augur-mlir" }
-augur-runtime = { path = "runtime/augur-runtime" }
-augur-std = { path = "stdlib/augur-std" }
-augur-pkg = { path = "pkg/augur-pkg" }
+augur-frontend = { path = "compiler/augur-frontend", version = "0.1.0" }
+augur-ir = { path = "compiler/augur-ir", version = "0.1.0" }
+augur-mlir = { path = "compiler/augur-mlir", version = "0.1.0" }
+augur-runtime = { path = "runtime/augur-runtime", version = "0.1.0" }
+augur-std = { path = "stdlib/augur-std", version = "0.1.0" }
+augur-pkg = { path = "pkg/augur-pkg", version = "0.1.0" }
 
 rand = "0.8"
 rand_distr = "0.4"

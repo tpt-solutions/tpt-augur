@@ -114,4 +114,5 @@ posteriors (Normal–Normal, Beta–Binomial).
 
 ## License
 
-Apache License 2.0 **with LLVM exceptions**. See [LICENSE](LICENSE).
+Dual-licensed under MIT or Apache License 2.0, at your option. See
+[LICENSE-MIT](LICENSE-MIT) and [LICENSE-APACHE](LICENSE-APACHE).

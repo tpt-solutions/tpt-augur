@@ -4,10 +4,14 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 description = "Language server for the Augur probabilistic programming language"
+repository.workspace = true
+homepage.workspace = true
+readme = "README.md"
+keywords = ["lsp", "language-server", "probabilistic-programming"]
+categories = ["development-tools"]
 
 [dependencies]
 augur-frontend = { workspace = true }
 augur-ir = { workspace = true }
 augur-mlir = { workspace = true }
-serde = { workspace = true }
 serde_json = { workspace = true }

@@ -5,6 +5,7 @@ edition.workspace = true
 license.workspace = true
 description = "Augur <-> TPT Locus bridge: probability-of-success scoring for agent strategies"
 repository.workspace = true
+publish = false
 
 [dependencies]
 augur-frontend = { workspace = true }

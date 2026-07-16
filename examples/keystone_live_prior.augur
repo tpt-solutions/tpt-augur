@@ -1,10 +1,10 @@
-// Example: a P(success) model whose Beta prior is produced by a live Keystone
-// query (see `augur-keystone`'s `prior_from_relational_query` /
-// `model_from_prior`). The numeric values below are placeholders for what a
-// Keystone `augur_feedback` query would emit at runtime.
-//
-//   let (alpha, beta) = prior_from_relational_query(&mut keystone, "demo_model", 2.0).await?;
-//   let model = model_from_prior(alpha, beta)?;
-//
+# Example: a P(success) model whose Beta prior is produced by a live Keystone
+# query (see `augur-keystone`'s `prior_from_relational_query` /
+# `model_from_prior`). The numeric values below are placeholders for what a
+# Keystone `augur_feedback` query would emit at runtime.
+#
+#   let (alpha, beta) = prior_from_relational_query(&mut keystone, "demo_model", 2.0).await?;
+#   let model = model_from_prior(alpha, beta)?;
+#
 let p ~ Beta(4, 3)
 let success ~ Bernoulli(p)

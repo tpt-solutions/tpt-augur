@@ -5,9 +5,12 @@ edition.workspace = true
 license.workspace = true
 description = "Probabilistic MLIR-compatible dialect, optimization passes, and TPTIR lowering for Augur"
 repository.workspace = true
+homepage.workspace = true
+readme = "README.md"
+keywords = ["mlir", "probabilistic-programming", "compilers"]
+categories = ["compilers"]
 
 [dependencies]
 augur-frontend = { workspace = true }
 augur-ir = { workspace = true }
 serde = { workspace = true }
-serde_json = { workspace = true }

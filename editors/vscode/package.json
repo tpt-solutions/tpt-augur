@@ -4,7 +4,7 @@
   "description": "Language support for the Augur probabilistic programming language (syntax highlighting + LSP).",
   "version": "0.1.0",
   "publisher": "tptsolutions",
-  "license": "Apache-2.0 WITH LLVM-exception",
+  "license": "MIT OR Apache-2.0",
   "engines": {
     "vscode": "^1.82.0"
   },
