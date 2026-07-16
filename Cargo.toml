@@ -21,6 +21,8 @@ license = "Apache-2.0 WITH LLVM-exception"
 description = "TPT Augur: a hardware-accelerated probabilistic programming language"
 authors = ["TPT Solutions"]
 repository = "https://github.com/PhillipC05/tpt-augur"
+homepage = "https://github.com/PhillipC05/tpt-augur"
+readme = "README.md"
 
 [workspace.dependencies]
 augur-frontend = { path = "compiler/augur-frontend" }

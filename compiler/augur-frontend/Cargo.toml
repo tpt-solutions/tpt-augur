@@ -5,6 +5,11 @@ edition.workspace = true
 license.workspace = true
 description = "Augur lexer, AST, and error-tolerant parser"
 repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+documentation = "https://docs.rs/augur-frontend"
+keywords = ["parser", "lexer", "probabilistic", "compiler", "ast"]
+categories = ["compilers", "parser-implementations"]
 
 [dependencies]
 thiserror = { workspace = true }

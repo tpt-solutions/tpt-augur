@@ -5,6 +5,11 @@ edition.workspace = true
 license.workspace = true
 description = "Augur standard library: probability distributions with log-density and sampling"
 repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+documentation = "https://docs.rs/augur-std"
+keywords = ["probability", "bayesian", "statistics", "distributions", "sampling"]
+categories = ["science", "mathematics", "algorithms"]
 
 [dependencies]
 rand = { workspace = true }

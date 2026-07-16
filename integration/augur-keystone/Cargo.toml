@@ -5,6 +5,7 @@ edition.workspace = true
 license.workspace = true
 description = "Augur <-> TPT Keystone DB: query bindings and live prior updates"
 repository.workspace = true
+publish = false
 
 [dependencies]
 augur-frontend = { workspace = true }

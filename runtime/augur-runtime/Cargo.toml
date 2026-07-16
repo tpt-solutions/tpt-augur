@@ -5,6 +5,11 @@ edition.workspace = true
 license.workspace = true
 description = "Augur inference runtime: MH, HMC, variational, and particle-filter engines"
 repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+documentation = "https://docs.rs/augur-runtime"
+keywords = ["mcmc", "bayesian", "inference", "hmc", "statistics"]
+categories = ["science", "algorithms", "mathematics"]
 
 [dependencies]
 augur-frontend = { workspace = true }
