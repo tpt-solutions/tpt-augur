@@ -2,10 +2,10 @@
 //! instantiation, the log-joint, and static analysis.
 
 use augur_frontend::parse;
-use augur_ir::{
-    lower, instantiate_dist, eval, log_joint, Diagnostic, Env, LowerResult, Model, Severity,
-};
 use augur_ir::lower::known_dist_arity;
+use augur_ir::{
+    eval, instantiate_dist, log_joint, lower, Diagnostic, Env, LowerResult, Model, Severity,
+};
 
 fn lower_ok(src: &str) -> Model {
     let r = parse(src);
@@ -76,19 +76,28 @@ fn distribution_used_as_value_is_error() {
 #[test]
 fn degenerate_literal_is_warning() {
     let lr = lower_with_diags("let s ~ Normal(0, -1)");
-    assert!(lr.diagnostics.iter().any(|d| d.severity == Severity::Warning));
+    assert!(lr
+        .diagnostics
+        .iter()
+        .any(|d| d.severity == Severity::Warning));
 }
 
 #[test]
 fn degenerate_uniform_warning() {
     let lr = lower_with_diags("let u ~ Uniform(3, 1)");
-    assert!(lr.diagnostics.iter().any(|d| d.severity == Severity::Warning));
+    assert!(lr
+        .diagnostics
+        .iter()
+        .any(|d| d.severity == Severity::Warning));
 }
 
 #[test]
 fn degenerate_bernoulli_warning() {
     let lr = lower_with_diags("let b ~ Bernoulli(1.5)");
-    assert!(lr.diagnostics.iter().any(|d| d.severity == Severity::Warning));
+    assert!(lr
+        .diagnostics
+        .iter()
+        .any(|d| d.severity == Severity::Warning));
 }
 
 #[test]
@@ -162,9 +171,15 @@ fn instantiate_dist_known_families() {
         })
         .collect();
     let expected = [
-        Dist::Normal { mu: 0.0, sigma: 1.0 },
+        Dist::Normal {
+            mu: 0.0,
+            sigma: 1.0,
+        },
         Dist::Beta { a: 2.0, b: 3.0 },
-        Dist::Gamma { shape: 1.0, rate: 2.0 },
+        Dist::Gamma {
+            shape: 1.0,
+            rate: 2.0,
+        },
         Dist::Uniform { lo: 0.0, hi: 1.0 },
         Dist::Exponential { rate: 2.0 },
         Dist::HalfNormal { sigma: 1.0 },
@@ -194,8 +209,16 @@ fn log_joint_normal_normal_matches_hand_computation() {
     let m = lower_ok("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5");
     let mut env = Env::new();
     let lp = log_joint(&m, &[0.25], &mut env);
-    let prior = augur_std::Dist::Normal { mu: 0.0, sigma: 1.0 }.logp(0.25);
-    let like = augur_std::Dist::Normal { mu: 0.25, sigma: 1.0 }.logp(0.5);
+    let prior = augur_std::Dist::Normal {
+        mu: 0.0,
+        sigma: 1.0,
+    }
+    .logp(0.25);
+    let like = augur_std::Dist::Normal {
+        mu: 0.25,
+        sigma: 1.0,
+    }
+    .logp(0.5);
     assert!((lp - (prior + like)).abs() < 1e-12, "lp={lp}");
 }
 
@@ -224,8 +247,16 @@ fn log_joint_sum_equals_prior_plus_likelihood_when_deterministic() {
     let m = lower_ok("let mu ~ Normal(0, 1)\nlet sigma = 1\nobserve Normal(mu, sigma) = 0.5");
     let mut env = Env::new();
     let lp = log_joint(&m, &[0.5], &mut env);
-    let prior = augur_std::Dist::Normal { mu: 0.0, sigma: 1.0 }.logp(0.5);
-    let like = augur_std::Dist::Normal { mu: 0.5, sigma: 1.0 }.logp(0.5);
+    let prior = augur_std::Dist::Normal {
+        mu: 0.0,
+        sigma: 1.0,
+    }
+    .logp(0.5);
+    let like = augur_std::Dist::Normal {
+        mu: 0.5,
+        sigma: 1.0,
+    }
+    .logp(0.5);
     assert!((lp - (prior + like)).abs() < 1e-12, "lp={lp}");
 }
 
@@ -236,10 +267,26 @@ fn if_gates_observe() {
     let mut env = Env::new();
     let lp_pos = log_joint(&m, &[0.6], &mut env);
     let lp_neg = log_joint(&m, &[-0.6], &mut env);
-    let like_pos = augur_std::Dist::Normal { mu: 0.6, sigma: 1.0 }.logp(1.0);
-    let like_neg = augur_std::Dist::Normal { mu: -0.6, sigma: 1.0 }.logp(-1.0);
-    let prior_pos = augur_std::Dist::Normal { mu: 0.0, sigma: 1.0 }.logp(0.6);
-    let prior_neg = augur_std::Dist::Normal { mu: 0.0, sigma: 1.0 }.logp(-0.6);
+    let like_pos = augur_std::Dist::Normal {
+        mu: 0.6,
+        sigma: 1.0,
+    }
+    .logp(1.0);
+    let like_neg = augur_std::Dist::Normal {
+        mu: -0.6,
+        sigma: 1.0,
+    }
+    .logp(-1.0);
+    let prior_pos = augur_std::Dist::Normal {
+        mu: 0.0,
+        sigma: 1.0,
+    }
+    .logp(0.6);
+    let prior_neg = augur_std::Dist::Normal {
+        mu: 0.0,
+        sigma: 1.0,
+    }
+    .logp(-0.6);
     assert!((lp_pos - (like_pos + prior_pos)).abs() < 1e-12);
     assert!((lp_neg - (like_neg + prior_neg)).abs() < 1e-12);
 }

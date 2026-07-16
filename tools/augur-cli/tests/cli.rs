@@ -21,7 +21,11 @@ fn valid_model() -> &'static str {
 fn check_valid_model_succeeds() {
     let path = write_temp("valid.augur", valid_model());
     let out = Command::new(BIN).arg("check").arg(&path).output().unwrap();
-    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("ok:"), "stdout was: {stdout}");
 }
@@ -37,11 +41,17 @@ fn check_invalid_model_fails() {
 
 #[test]
 fn fmt_emits_canonical_source() {
-    let path = write_temp("fmt.augur", "let mu ~ Normal(0,1)\nobserve Normal(mu,1)=0.5");
+    let path = write_temp(
+        "fmt.augur",
+        "let mu ~ Normal(0,1)\nobserve Normal(mu,1)=0.5",
+    );
     let out = Command::new(BIN).arg("fmt").arg(&path).output().unwrap();
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("let mu ~ Normal(0.0, 1.0)"), "stdout was: {stdout}");
+    assert!(
+        stdout.contains("let mu ~ Normal(0.0, 1.0)"),
+        "stdout was: {stdout}"
+    );
 }
 
 #[test]
@@ -50,7 +60,10 @@ fn graph_emits_digraph() {
     let out = Command::new(BIN).arg("graph").arg(&path).output().unwrap();
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("digraph augur_inference_graph"), "stdout was: {stdout}");
+    assert!(
+        stdout.contains("digraph augur_inference_graph"),
+        "stdout was: {stdout}"
+    );
 }
 
 #[test]
@@ -72,7 +85,11 @@ fn run_prints_posterior_summary() {
         .args(["-n", "300", "-c", "2", "--warmup", "150"])
         .output()
         .unwrap();
-    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("engine:"), "stdout was: {stdout}");
     assert!(stdout.contains("mu"), "stdout was: {stdout}");
@@ -286,7 +303,11 @@ fn repl_reads_model_from_stdin() {
         stdin.write_all(valid_model().as_bytes()).unwrap();
     }
     let out = child.wait_with_output().unwrap();
-    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("mu"), "stdout was: {stdout}");
 }

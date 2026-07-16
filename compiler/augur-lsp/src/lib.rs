@@ -76,7 +76,9 @@ pub fn hover_at(src: &str, char_offset: usize) -> Option<String> {
 
 fn distribution_doc(name: &str) -> Option<&'static str> {
     let doc = match name {
-        "Normal" => "**Normal(μ, σ)** — Gaussian prior.\n- μ: mean\n- σ: standard deviation (σ > 0)",
+        "Normal" => {
+            "**Normal(μ, σ)** — Gaussian prior.\n- μ: mean\n- σ: standard deviation (σ > 0)"
+        }
         "HalfNormal" => "**HalfNormal(σ)** — half-Gaussian, support [0, ∞).\n- σ: scale (σ > 0)",
         "Beta" => "**Beta(α, β)** — support (0, 1), conjugate to Bernoulli/Binomial.\n- α, β > 0",
         "Gamma" => "**Gamma(α, β)** — support (0, ∞).\n- α: shape, β: rate (both > 0)",
@@ -116,8 +118,8 @@ fn position_at(src: &str, offset: usize) -> (u32, u32) {
     let mut line = 0u32;
     let mut line_start = 0usize;
     let target = offset.min(chars.len());
-    for i in 0..target {
-        if chars[i] == '\n' {
+    for (i, ch) in chars.iter().enumerate().take(target) {
+        if *ch == '\n' {
             line += 1;
             line_start = i + 1;
         }
@@ -152,8 +154,10 @@ mod tests {
     fn degenerate_warning_surfaces() {
         let src = "let s ~ Normal(0, -1)";
         let diags = analyze_document(src);
-        assert!(diags.iter().any(|d| d["severity"] == 2
-            && d["message"].as_str().unwrap_or("").contains("degenerate")));
+        assert!(diags
+            .iter()
+            .any(|d| d["severity"] == 2
+                && d["message"].as_str().unwrap_or("").contains("degenerate")));
     }
 
     #[test]

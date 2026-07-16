@@ -1,12 +1,12 @@
 //! Integration tests for the Augur frontend: lexer, parser, formatter,
 //! diagnostics, and AST.
 
+use augur_frontend::lexer::{lex, Tok};
 use augur_frontend::{
     ast::{BinOp, CmpOp, Expr, Program, Span, Stmt},
     diagnostics::{Diagnostic, Severity},
     format_program, parse, ParseResult,
 };
-use augur_frontend::lexer::{lex, Tok};
 
 fn no_errors(r: &ParseResult) -> bool {
     !r.has_errors()
@@ -44,9 +44,7 @@ fn lex_reports_invalid_characters() {
 #[test]
 fn lex_reports_lone_bang_with_hint() {
     let (_, diags) = lex("!");
-    assert!(diags
-        .iter()
-        .any(|d| d.message.contains("!=")));
+    assert!(diags.iter().any(|d| d.message.contains("!=")));
 }
 
 #[test]
@@ -73,7 +71,9 @@ fn parse_let_and_if_else() {
     assert_eq!(r.program.statements.len(), 3);
     match &r.program.statements[2] {
         Stmt::If {
-            then_body, else_body, ..
+            then_body,
+            else_body,
+            ..
         } => {
             assert_eq!(then_body.len(), 1);
             assert_eq!(else_body.len(), 1);
@@ -87,9 +87,19 @@ fn parse_operator_precedence() {
     let r = parse("let x = 1 + 2 * 3");
     assert!(no_errors(&r));
     if let Stmt::Let { value, .. } = &r.program.statements[0] {
-        if let Expr::Bin { op: BinOp::Add, lhs, rhs } = value {
+        if let Expr::Bin {
+            op: BinOp::Add,
+            lhs,
+            rhs,
+        } = value
+        {
             assert!(matches!(&**lhs, Expr::Num(1.0)));
-            if let Expr::Bin { op: BinOp::Mul, lhs: a, rhs: b } = &**rhs {
+            if let Expr::Bin {
+                op: BinOp::Mul,
+                lhs: a,
+                rhs: b,
+            } = &**rhs
+            {
                 assert!(matches!(&**a, Expr::Num(2.0)));
                 assert!(matches!(&**b, Expr::Num(3.0)));
             } else {
@@ -130,9 +140,7 @@ fn error_tolerant_recovers_valid_statements() {
 
 #[test]
 fn error_tolerant_recovers_after_block() {
-    let r = parse(
-        "if mu > 0 { let a = 1 @@@ bad } else { let b = 2 }\nlet tail ~ Normal(0,1)",
-    );
+    let r = parse("if mu > 0 { let a = 1 @@@ bad } else { let b = 2 }\nlet tail ~ Normal(0,1)");
     // The trailing prior must still be recovered.
     assert!(r
         .program

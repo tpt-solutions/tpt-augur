@@ -26,6 +26,7 @@ use augur_ir::lower;
 
 /// Abstracts the Keystone query surface so the bridge is testable without a
 /// running server and swappable for the real `KeystoneClient`.
+#[allow(async_fn_in_trait)]
 pub trait KeystoneQuerier {
     async fn query_params(
         &mut self,
@@ -121,7 +122,12 @@ pub fn tally_outcomes(result: &QueryResult) -> RelationalPriorData {
     let mut successes = 0u64;
     let mut failures = 0u64;
     for row in &result.rows {
-        match row.get_value(row.column_names().iter().position(|c| c == "outcome").unwrap_or(0)) {
+        match row.get_value(
+            row.column_names()
+                .iter()
+                .position(|c| c == "outcome")
+                .unwrap_or(0),
+        ) {
             Value::Text(s) => match s.as_str() {
                 "success" => successes += 1,
                 "failure" => failures += 1,
@@ -132,7 +138,10 @@ pub fn tally_outcomes(result: &QueryResult) -> RelationalPriorData {
             _ => {}
         }
     }
-    RelationalPriorData { successes, failures }
+    RelationalPriorData {
+        successes,
+        failures,
+    }
 }
 
 /// Fetch and build a Beta prior from relational outcome feedback for `model_id`.
@@ -167,7 +176,11 @@ pub async fn prior_from_vector_query<Q: KeystoneQuerier>(
     if res.rows.is_empty() {
         return Err(BridgeError::EmptyResult);
     }
-    let sim_col = res.columns.iter().position(|c| c == "similarity").unwrap_or(0);
+    let sim_col = res
+        .columns
+        .iter()
+        .position(|c| c == "similarity")
+        .unwrap_or(0);
     let mut sum = 0.0;
     let mut n = 0u64;
     for row in &res.rows {
@@ -227,9 +240,18 @@ mod tests {
         QueryResult::new(
             vec!["model_id".into(), "outcome".into()],
             vec![
-                Row::new(["model_id", "outcome"], [Some(b"m".to_vec()), Some(b"success".to_vec())]),
-                Row::new(["model_id", "outcome"], [Some(b"m".to_vec()), Some(b"success".to_vec())]),
-                Row::new(["model_id", "outcome"], [Some(b"m".to_vec()), Some(b"failure".to_vec())]),
+                Row::new(
+                    ["model_id", "outcome"],
+                    [Some(b"m".to_vec()), Some(b"success".to_vec())],
+                ),
+                Row::new(
+                    ["model_id", "outcome"],
+                    [Some(b"m".to_vec()), Some(b"success".to_vec())],
+                ),
+                Row::new(
+                    ["model_id", "outcome"],
+                    [Some(b"m".to_vec()), Some(b"failure".to_vec())],
+                ),
             ],
             None,
         )
@@ -239,8 +261,14 @@ mod tests {
         QueryResult::new(
             vec!["strategy_id".into(), "similarity".into()],
             vec![
-                Row::new(["strategy_id", "similarity"], [Some(b"s".to_vec()), Some(b"0.8".to_vec())]),
-                Row::new(["strategy_id", "similarity"], [Some(b"s".to_vec()), Some(b"0.4".to_vec())]),
+                Row::new(
+                    ["strategy_id", "similarity"],
+                    [Some(b"s".to_vec()), Some(b"0.8".to_vec())],
+                ),
+                Row::new(
+                    ["strategy_id", "similarity"],
+                    [Some(b"s".to_vec()), Some(b"0.4".to_vec())],
+                ),
             ],
             None,
         )
@@ -285,9 +313,7 @@ mod tests {
         let mut mock = MockKeystone {
             result: memory_result(),
         };
-        let (a, b) = prior_from_vector_query(&mut mock, "s", 10.0)
-            .await
-            .unwrap();
+        let (a, b) = prior_from_vector_query(&mut mock, "s", 10.0).await.unwrap();
         // mean similarity 0.6 ⇒ above-even success prior
         assert!(a > b);
     }
@@ -303,8 +329,7 @@ mod tests {
         let mut mock = MockKeystone {
             result: QueryResult::new(vec!["model_id".into(), "outcome".into()], vec![], None),
         };
-        let err = prior_from_relational_query(&mut mock, "m", 2.0)
-            .await;
+        let err = prior_from_relational_query(&mut mock, "m", 2.0).await;
         assert!(matches!(err, Err(BridgeError::EmptyResult)));
     }
 }

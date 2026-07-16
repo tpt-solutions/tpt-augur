@@ -18,7 +18,7 @@
 
 use augur_frontend::parse;
 use augur_ir::lower;
-use augur_runtime::{select_engine, Engine, InferOptions, InferenceResult};
+use augur_runtime::{InferOptions, InferenceResult};
 
 /// A candidate Locus agent strategy to be scored.
 #[derive(Debug, Clone, PartialEq)]
@@ -87,7 +87,10 @@ pub fn success_model_source(alpha: f64, beta: f64) -> String {
 
 /// Run inference on an already-lowered model and extract the posterior of the
 /// `success` variable as a [`ProbabilityOfSuccess`].
-fn summarize_success(model: &augur_ir::Model, opts: &InferOptions) -> Result<ProbabilityOfSuccess, BridgeError> {
+fn summarize_success(
+    model: &augur_ir::Model,
+    opts: &InferOptions,
+) -> Result<ProbabilityOfSuccess, BridgeError> {
     let result: InferenceResult = augur_runtime::run(model, opts);
     let summary = result
         .summaries
@@ -113,7 +116,10 @@ fn default_opts() -> InferOptions {
 /// The stable Augur model-evaluation entry point: a Locus [`Strategy`] in,
 /// a [`ProbabilityOfSuccess`] out. Builds the canonical success model from the
 /// strategy's features and runs posterior-predictive inference.
-pub fn evaluate_strategy(strategy: &Strategy, concentration: f64) -> Result<ProbabilityOfSuccess, BridgeError> {
+pub fn evaluate_strategy(
+    strategy: &Strategy,
+    concentration: f64,
+) -> Result<ProbabilityOfSuccess, BridgeError> {
     let (alpha, beta) = features_to_beta_prior(&strategy.features, concentration);
     let src = success_model_source(alpha, beta);
     let parsed = parse(&src);
@@ -130,7 +136,10 @@ pub fn evaluate_strategy(strategy: &Strategy, concentration: f64) -> Result<Prob
 /// Score an arbitrary Augur model source for a strategy. The strategy features
 /// are prepended as deterministic `let featureN = <value>` bindings so the
 /// model can reference them (e.g. `let p ~ Beta(1 + 5*feature0, 1)`).
-pub fn evaluate_source(src: &str, strategy: &Strategy) -> Result<ProbabilityOfSuccess, BridgeError> {
+pub fn evaluate_source(
+    src: &str,
+    strategy: &Strategy,
+) -> Result<ProbabilityOfSuccess, BridgeError> {
     let bindings: String = strategy
         .features
         .iter()

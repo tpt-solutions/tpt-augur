@@ -71,15 +71,24 @@ fn handle(server: &mut Server, msg: Value, out: &mut impl Write) -> io::Result<O
         }
         "textDocument/didOpen" => {
             let params = &msg["params"];
-            let uri = params["textDocument"]["uri"].as_str().unwrap_or("").to_string();
-            let text = params["textDocument"]["text"].as_str().unwrap_or("").to_string();
+            let uri = params["textDocument"]["uri"]
+                .as_str()
+                .unwrap_or("")
+                .to_string();
+            let text = params["textDocument"]["text"]
+                .as_str()
+                .unwrap_or("")
+                .to_string();
             server.documents.insert(uri.clone(), text);
             publish_diagnostics(server, &uri, out)?;
             Ok(None)
         }
         "textDocument/didChange" => {
             let params = &msg["params"];
-            let uri = params["textDocument"]["uri"].as_str().unwrap_or("").to_string();
+            let uri = params["textDocument"]["uri"]
+                .as_str()
+                .unwrap_or("")
+                .to_string();
             if let Some(change) = params["contentChanges"].get(0) {
                 let new_text = apply_change(server, &uri, change);
                 server.documents.insert(uri.clone(), new_text);
@@ -89,7 +98,10 @@ fn handle(server: &mut Server, msg: Value, out: &mut impl Write) -> io::Result<O
         }
         "textDocument/didSave" => {
             let params = &msg["params"];
-            let uri = params["textDocument"]["uri"].as_str().unwrap_or("").to_string();
+            let uri = params["textDocument"]["uri"]
+                .as_str()
+                .unwrap_or("")
+                .to_string();
             publish_diagnostics(server, &uri, out)?;
             Ok(None)
         }

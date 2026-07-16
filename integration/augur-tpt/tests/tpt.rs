@@ -28,9 +28,18 @@ fn hardware_target_round_trips() {
         let parsed = HardwareTarget::from_str(t.as_str()).unwrap();
         assert_eq!(parsed, *t);
     }
-    assert_eq!(HardwareTarget::from_str("cuda").unwrap(), HardwareTarget::Nvidia);
-    assert_eq!(HardwareTarget::from_str("rocm").unwrap(), HardwareTarget::Amd);
-    assert_eq!(HardwareTarget::from_str("metal").unwrap(), HardwareTarget::AppleSilicon);
+    assert_eq!(
+        HardwareTarget::from_str("cuda").unwrap(),
+        HardwareTarget::Nvidia
+    );
+    assert_eq!(
+        HardwareTarget::from_str("rocm").unwrap(),
+        HardwareTarget::Amd
+    );
+    assert_eq!(
+        HardwareTarget::from_str("metal").unwrap(),
+        HardwareTarget::AppleSilicon
+    );
     assert!(HardwareTarget::from_str("bogus").is_err());
 }
 
@@ -47,7 +56,10 @@ fn hardware_target_metadata() {
 #[test]
 fn select_defaults_to_cpu() {
     assert_eq!(select_hardware_target(None).unwrap(), HardwareTarget::Cpu);
-    assert_eq!(select_hardware_target(Some("amd")).unwrap(), HardwareTarget::Amd);
+    assert_eq!(
+        select_hardware_target(Some("amd")).unwrap(),
+        HardwareTarget::Amd
+    );
     assert!(matches!(
         select_hardware_target(Some("nope")),
         Err(TptInteropError::UnknownHardware(_))
@@ -66,7 +78,11 @@ fn handoff_emits_and_validates_tptir() {
 #[test]
 fn accelerator_handoff_dispatches_without_error() {
     let m = model("let mu ~ Normal(0, 1)");
-    for hw in [HardwareTarget::Nvidia, HardwareTarget::Amd, HardwareTarget::AppleSilicon] {
+    for hw in [
+        HardwareTarget::Nvidia,
+        HardwareTarget::Amd,
+        HardwareTarget::AppleSilicon,
+    ] {
         let h = handoff_model(&m, "model", hw).unwrap();
         assert_eq!(h.hardware, hw);
         assert!(h.structurally_valid);

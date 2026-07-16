@@ -269,7 +269,10 @@ mod tests {
         assert!(!parsed.has_errors(), "{:?}", parsed.diagnostics);
         let lowered = augur_ir::lower(&parsed.program);
         assert!(
-            !lowered.diagnostics.iter().any(augur_ir::Diagnostic::is_error),
+            !lowered
+                .diagnostics
+                .iter()
+                .any(augur_ir::Diagnostic::is_error),
             "{:?}",
             lowered.diagnostics
         );
@@ -296,8 +299,14 @@ mod tests {
         let changes = ConstantBranchPass.run(&mut g);
         assert!(changes > 0);
         assert!(!g.ops.iter().any(|op| matches!(op, Op::Cond { .. })));
-        assert!(g.ops.iter().any(|op| matches!(op, Op::Let{name,..} if name == "a")));
-        assert!(!g.ops.iter().any(|op| matches!(op, Op::Let{name,..} if name == "b")));
+        assert!(g
+            .ops
+            .iter()
+            .any(|op| matches!(op, Op::Let{name,..} if name == "a")));
+        assert!(!g
+            .ops
+            .iter()
+            .any(|op| matches!(op, Op::Let{name,..} if name == "b")));
     }
 
     #[test]
@@ -315,7 +324,10 @@ mod tests {
         );
         let changes = DeadValueEliminationPass.run(&mut g);
         assert!(changes > 0);
-        assert!(!g.ops.iter().any(|op| matches!(op, Op::Constant{result,..} if *result==unused)));
+        assert!(!g
+            .ops
+            .iter()
+            .any(|op| matches!(op, Op::Constant{result,..} if *result==unused)));
     }
 
     #[test]

@@ -5,7 +5,10 @@ use augur_std::{seeded_rng, std_normal, Dist};
 
 #[test]
 fn normal_logp_at_mean() {
-    let d = Dist::Normal { mu: 0.0, sigma: 1.0 };
+    let d = Dist::Normal {
+        mu: 0.0,
+        sigma: 1.0,
+    };
     let lp = d.logp(0.0);
     assert!((lp + 0.5 * (2.0 * std::f64::consts::PI).ln()).abs() < 1e-12);
 }
@@ -29,19 +32,53 @@ fn beta_logp_at_half() {
 
 #[test]
 fn boundary_points_return_negative_infinity() {
-    assert_eq!(Dist::Normal { mu: 0.0, sigma: -1.0 }.logp(0.0), f64::NEG_INFINITY);
+    assert_eq!(
+        Dist::Normal {
+            mu: 0.0,
+            sigma: -1.0
+        }
+        .logp(0.0),
+        f64::NEG_INFINITY
+    );
     assert_eq!(Dist::Beta { a: 2.0, b: 2.0 }.logp(0.0), f64::NEG_INFINITY);
     assert_eq!(Dist::Beta { a: 2.0, b: 2.0 }.logp(1.0), f64::NEG_INFINITY);
-    assert_eq!(Dist::Uniform { lo: 0.0, hi: 1.0 }.logp(2.0), f64::NEG_INFINITY);
-    assert_eq!(Dist::Gamma { shape: 1.0, rate: 1.0 }.logp(-1.0), f64::NEG_INFINITY);
+    assert_eq!(
+        Dist::Uniform { lo: 0.0, hi: 1.0 }.logp(2.0),
+        f64::NEG_INFINITY
+    );
+    assert_eq!(
+        Dist::Gamma {
+            shape: 1.0,
+            rate: 1.0
+        }
+        .logp(-1.0),
+        f64::NEG_INFINITY
+    );
 }
 
 #[test]
 fn means_match_analytic() {
-    assert_eq!(Dist::Normal { mu: 3.0, sigma: 2.0 }.mean(), 3.0);
-    assert!((Dist::HalfNormal { sigma: 2.0 }.mean() - 2.0 * (2.0 / std::f64::consts::PI).sqrt()).abs() < 1e-12);
+    assert_eq!(
+        Dist::Normal {
+            mu: 3.0,
+            sigma: 2.0
+        }
+        .mean(),
+        3.0
+    );
+    assert!(
+        (Dist::HalfNormal { sigma: 2.0 }.mean() - 2.0 * (2.0 / std::f64::consts::PI).sqrt()).abs()
+            < 1e-12
+    );
     assert_eq!(Dist::Beta { a: 2.0, b: 4.0 }.mean(), 2.0 / 6.0);
-    assert_eq!(Dist::Gamma { shape: 3.0, rate: 2.0 }.mean(), 1.5);
+    assert_eq!(
+        Dist::Gamma {
+            shape: 3.0,
+            rate: 2.0
+        }
+        .mean(),
+        1.5
+    );
     assert_eq!(Dist::Uniform { lo: -1.0, hi: 3.0 }.mean(), 1.0);
     assert_eq!(Dist::Exponential { rate: 0.5 }.mean(), 2.0);
     assert_eq!(Dist::Binomial { n: 10.0, p: 0.3 }.mean(), 3.0);
@@ -51,9 +88,27 @@ fn means_match_analytic() {
 
 #[test]
 fn variances_match_analytic() {
-    assert!((Dist::Normal { mu: 0.0, sigma: 2.0 }.variance() - 4.0).abs() < 1e-12);
+    assert!(
+        (Dist::Normal {
+            mu: 0.0,
+            sigma: 2.0
+        }
+        .variance()
+            - 4.0)
+            .abs()
+            < 1e-12
+    );
     assert!((Dist::Beta { a: 2.0, b: 4.0 }.variance() - (8.0 / 252.0)).abs() < 1e-12);
-    assert!((Dist::Gamma { shape: 3.0, rate: 2.0 }.variance() - 0.75).abs() < 1e-12);
+    assert!(
+        (Dist::Gamma {
+            shape: 3.0,
+            rate: 2.0
+        }
+        .variance()
+            - 0.75)
+            .abs()
+            < 1e-12
+    );
     assert!((Dist::Uniform { lo: 0.0, hi: 1.0 }.variance() - (1.0 / 12.0)).abs() < 1e-12);
     assert!((Dist::Exponential { rate: 0.5 }.variance() - 4.0).abs() < 1e-12);
     assert!((Dist::Binomial { n: 10.0, p: 0.3 }.variance() - 2.1).abs() < 1e-9);
@@ -64,7 +119,10 @@ fn variances_match_analytic() {
 #[test]
 fn sample_stats_recover_parameters_normal() {
     let mut rng = seeded_rng(42);
-    let d = Dist::Normal { mu: 3.0, sigma: 2.0 };
+    let d = Dist::Normal {
+        mu: 3.0,
+        sigma: 2.0,
+    };
     let n = 200_000;
     let mut sum = 0.0;
     let mut sumsq = 0.0;
@@ -93,7 +151,10 @@ fn beta_sample_in_unit_interval() {
 #[test]
 fn gamma_sample_is_positive() {
     let mut rng = seeded_rng(11);
-    let d = Dist::Gamma { shape: 2.0, rate: 3.0 };
+    let d = Dist::Gamma {
+        shape: 2.0,
+        rate: 3.0,
+    };
     for _ in 0..500 {
         let x = d.sample(&mut rng);
         assert!(x > 0.0);
@@ -151,9 +212,23 @@ fn typical_point_is_in_support() {
     assert!(Dist::Beta { a: 2.0, b: 2.0 }.typical_point() > 0.0);
     assert!(Dist::Beta { a: 2.0, b: 2.0 }.typical_point() < 1.0);
     assert!(Dist::HalfNormal { sigma: 1.0 }.typical_point() > 0.0);
-    assert!(Dist::Gamma { shape: 1.0, rate: 1.0 }.typical_point() > 0.0);
+    assert!(
+        Dist::Gamma {
+            shape: 1.0,
+            rate: 1.0
+        }
+        .typical_point()
+            > 0.0
+    );
     // Normal typical point equals the mean.
-    assert_eq!(Dist::Normal { mu: -3.0, sigma: 1.0 }.typical_point(), -3.0);
+    assert_eq!(
+        Dist::Normal {
+            mu: -3.0,
+            sigma: 1.0
+        }
+        .typical_point(),
+        -3.0
+    );
 }
 
 #[test]

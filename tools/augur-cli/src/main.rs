@@ -1,7 +1,7 @@
 //! `augur` command-line interface.
 
 use std::io::Read;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use anyhow::{anyhow, Context, Result};
@@ -256,7 +256,7 @@ fn cmd_build(
     Ok(ExitCode::SUCCESS)
 }
 
-fn cmd_publish(manifest: &PathBuf, sources: &[PathBuf]) -> Result<ExitCode> {
+fn cmd_publish(manifest: &Path, sources: &[PathBuf]) -> Result<ExitCode> {
     let man = augur_pkg::Manifest::load(manifest)
         .with_context(|| format!("loading manifest `{}`", manifest.display()))?;
     let mut files = Vec::new();
@@ -288,7 +288,7 @@ fn cmd_publish(manifest: &PathBuf, sources: &[PathBuf]) -> Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
-fn cmd_install(name: &str, version: &str, dest: &PathBuf) -> Result<ExitCode> {
+fn cmd_install(name: &str, version: &str, dest: &Path) -> Result<ExitCode> {
     let registry = augur_pkg::Registry::open_default()?;
     let installed = registry
         .install(name, version, dest)

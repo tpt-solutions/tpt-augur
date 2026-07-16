@@ -23,9 +23,10 @@ fn undeclared_variable_is_reported() {
 fn unknown_distribution_is_reported() {
     let src = "let x ~ Banana(1, 2)";
     let diags = analyze_document(src);
-    assert!(diags
-        .iter()
-        .any(|d| d["message"].as_str().unwrap_or("").contains("not a known distribution")));
+    assert!(diags.iter().any(|d| d["message"]
+        .as_str()
+        .unwrap_or("")
+        .contains("not a known distribution")));
 }
 
 #[test]

@@ -28,9 +28,18 @@ fn feedback_result() -> QueryResult {
     QueryResult::new(
         vec!["model_id".into(), "outcome".into()],
         vec![
-            Row::new(["model_id", "outcome"], [Some(b"m".to_vec()), Some(b"success".to_vec())]),
-            Row::new(["model_id", "outcome"], [Some(b"m".to_vec()), Some(b"success".to_vec())]),
-            Row::new(["model_id", "outcome"], [Some(b"m".to_vec()), Some(b"failure".to_vec())]),
+            Row::new(
+                ["model_id", "outcome"],
+                [Some(b"m".to_vec()), Some(b"success".to_vec())],
+            ),
+            Row::new(
+                ["model_id", "outcome"],
+                [Some(b"m".to_vec()), Some(b"success".to_vec())],
+            ),
+            Row::new(
+                ["model_id", "outcome"],
+                [Some(b"m".to_vec()), Some(b"failure".to_vec())],
+            ),
         ],
         None,
     )
@@ -40,8 +49,14 @@ fn memory_result() -> QueryResult {
     QueryResult::new(
         vec!["strategy_id".into(), "similarity".into()],
         vec![
-            Row::new(["strategy_id", "similarity"], [Some(b"s".to_vec()), Some(b"0.8".to_vec())]),
-            Row::new(["strategy_id", "similarity"], [Some(b"s".to_vec()), Some(b"0.4".to_vec())]),
+            Row::new(
+                ["strategy_id", "similarity"],
+                [Some(b"s".to_vec()), Some(b"0.8".to_vec())],
+            ),
+            Row::new(
+                ["strategy_id", "similarity"],
+                [Some(b"s".to_vec()), Some(b"0.4".to_vec())],
+            ),
         ],
         None,
     )
@@ -57,7 +72,10 @@ fn logistic_maps_scores() {
 #[test]
 fn prior_from_relational_adds_pseudocounts() {
     let (a, b) = prior_from_relational(
-        &RelationalPriorData { successes: 2, failures: 1 },
+        &RelationalPriorData {
+            successes: 2,
+            failures: 1,
+        },
         2.0,
     );
     assert_eq!((a, b), (4.0, 3.0));
@@ -100,14 +118,20 @@ fn record_outcomes_tallies_text_outcomes() {
 
 #[tokio::test]
 async fn relational_query_builds_prior() {
-    let mut mock = MockKeystone { result: feedback_result() };
-    let (a, b) = prior_from_relational_query(&mut mock, "m", 2.0).await.unwrap();
+    let mut mock = MockKeystone {
+        result: feedback_result(),
+    };
+    let (a, b) = prior_from_relational_query(&mut mock, "m", 2.0)
+        .await
+        .unwrap();
     assert_eq!((a, b), (4.0, 3.0));
 }
 
 #[tokio::test]
 async fn vector_query_builds_prior() {
-    let mut mock = MockKeystone { result: memory_result() };
+    let mut mock = MockKeystone {
+        result: memory_result(),
+    };
     let (a, b) = prior_from_vector_query(&mut mock, "s", 10.0).await.unwrap();
     assert!(a > b);
 }

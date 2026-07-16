@@ -27,7 +27,10 @@ fn parses_manifest_fields() {
     assert_eq!(m.package.version, "0.1.0");
     assert_eq!(m.package.authors, vec!["A. Student"]);
     assert_eq!(m.dependencies.len(), 2);
-    assert_eq!(m.dependencies["stdlib"].path.as_deref(), Some("../stdlib/augur-std"));
+    assert_eq!(
+        m.dependencies["stdlib"].path.as_deref(),
+        Some("../stdlib/augur-std")
+    );
     assert_eq!(m.modules.len(), 2);
 }
 
@@ -83,7 +86,10 @@ fn publish_then_install_round_trips_sources() {
     let written = registry.install("my-model", "0.1.0", &dest).unwrap();
     let source_out = dest.join("bayes/regression.augur");
     assert!(written.contains(&source_out));
-    assert_eq!(std::fs::read_to_string(&source_out).unwrap(), "let mu ~ Normal(0, 1)");
+    assert_eq!(
+        std::fs::read_to_string(&source_out).unwrap(),
+        "let mu ~ Normal(0, 1)"
+    );
     assert!(dest.join("Augur.toml").exists());
     let _ = std::fs::remove_dir_all(&dir);
     let _ = std::fs::remove_dir_all(&dest);

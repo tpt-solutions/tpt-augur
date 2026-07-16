@@ -28,7 +28,10 @@ impl Builder {
         match expr {
             Expr::Num(v) => {
                 let r = self.fresh();
-                self.ops.push(Op::Constant { result: r, value: *v });
+                self.ops.push(Op::Constant {
+                    result: r,
+                    value: *v,
+                });
                 r
             }
             Expr::Var(name) => *self
@@ -82,8 +85,9 @@ impl Builder {
     fn lower_dist(&mut self, expr: &Expr) -> ValueId {
         match expr {
             Expr::Call { name, args, .. } => {
-                let family = DistFamily::from_name(name)
-                    .unwrap_or_else(|| panic!("unknown distribution `{name}` reached MLIR build stage"));
+                let family = DistFamily::from_name(name).unwrap_or_else(|| {
+                    panic!("unknown distribution `{name}` reached MLIR build stage")
+                });
                 let params = args.iter().map(|a| self.lower_expr(a)).collect();
                 let r = self.fresh();
                 self.ops.push(Op::Dist {
@@ -175,7 +179,10 @@ mod tests {
         assert!(!parsed.has_errors(), "{:?}", parsed.diagnostics);
         let lowered = augur_ir::lower(&parsed.program);
         assert!(
-            !lowered.diagnostics.iter().any(augur_ir::Diagnostic::is_error),
+            !lowered
+                .diagnostics
+                .iter()
+                .any(augur_ir::Diagnostic::is_error),
             "{:?}",
             lowered.diagnostics
         );
@@ -186,7 +193,10 @@ mod tests {
     fn prior_and_observe_produce_sample_and_observe_ops() {
         let g = build("let mu ~ Normal(0, 1)\nobserve Normal(mu, 1) = 0.5");
         assert_eq!(g.prior_order, vec!["mu".to_string()]);
-        let has_sample = g.ops.iter().any(|op| matches!(op, Op::Sample { name, .. } if name == "mu"));
+        let has_sample = g
+            .ops
+            .iter()
+            .any(|op| matches!(op, Op::Sample { name, .. } if name == "mu"));
         let has_observe = g.ops.iter().any(|op| matches!(op, Op::Observe { .. }));
         assert!(has_sample && has_observe);
     }

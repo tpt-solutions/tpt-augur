@@ -14,6 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout tpt-locus (sibling dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: tpt-solutions/tpt-locus
+          path: ../tpt-locus
+      - name: Checkout tpt-keystone-db (sibling dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: tpt-solutions/tpt-keystone-db
+          path: ../tpt-keystone-db
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -21,7 +31,7 @@ jobs:
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
       - name: Format check
-        run: cargo fmt --all -- --check
+        run: cargo fmt --check
       - name: Build
         run: cargo build --workspace --verbose
       - name: Test
