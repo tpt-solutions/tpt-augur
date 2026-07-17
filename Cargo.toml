@@ -1,16 +1,16 @@
 [workspace]
 members = [
-    "compiler/augur-frontend",
-    "compiler/augur-ir",
-    "compiler/augur-mlir",
-    "runtime/augur-runtime",
-    "stdlib/augur-std",
-    "pkg/augur-pkg",
-    "integration/augur-tpt",
-    "integration/augur-locus",
-    "integration/augur-keystone",
-    "tools/augur-cli",
-    "compiler/augur-lsp",
+    "compiler/tpt-augur-frontend",
+    "compiler/tpt-augur-ir",
+    "compiler/tpt-augur-mlir",
+    "runtime/tpt-augur-runtime",
+    "stdlib/tpt-augur-std",
+    "pkg/tpt-augur-pkg",
+    "integration/tpt-augur-tpt",
+    "integration/tpt-augur-locus",
+    "integration/tpt-augur-keystone",
+    "tools/tpt-augur-cli",
+    "compiler/tpt-augur-lsp",
 ]
 resolver = "2"
 
@@ -21,15 +21,14 @@ license = "MIT OR Apache-2.0"
 description = "TPT Augur: a hardware-accelerated probabilistic programming language"
 authors = ["TPT Solutions"]
 repository = "https://github.com/tpt-solutions/tpt-augur"
-homepage = "https://github.com/tpt-solutions/tpt-augur"
 
 [workspace.dependencies]
-augur-frontend = { path = "compiler/augur-frontend", version = "0.1.0" }
-augur-ir = { path = "compiler/augur-ir", version = "0.1.0" }
-augur-mlir = { path = "compiler/augur-mlir", version = "0.1.0" }
-augur-runtime = { path = "runtime/augur-runtime", version = "0.1.0" }
-augur-std = { path = "stdlib/augur-std", version = "0.1.0" }
-augur-pkg = { path = "pkg/augur-pkg", version = "0.1.0" }
+tpt-augur-frontend = { path = "compiler/tpt-augur-frontend", version = "0.1.0" }
+tpt-augur-ir = { path = "compiler/tpt-augur-ir", version = "0.1.0" }
+tpt-augur-mlir = { path = "compiler/tpt-augur-mlir", version = "0.1.0" }
+tpt-augur-runtime = { path = "runtime/tpt-augur-runtime", version = "0.1.0" }
+tpt-augur-std = { path = "stdlib/tpt-augur-std", version = "0.1.0" }
+tpt-augur-pkg = { path = "pkg/tpt-augur-pkg", version = "0.1.0" }
 
 rand = "0.8"
 rand_distr = "0.4"

@@ -24,7 +24,7 @@ tagging a release.
 
 ## Packaging
 
-- [ ] `augur-pkg` manifest format documented; `to_cargo_deps` output
+- [ ] `tpt-augur-pkg` manifest format documented; `to_cargo_deps` output
       validated for the example manifests.
 - [ ] CLI `--help` output for every subcommand reviewed.
 

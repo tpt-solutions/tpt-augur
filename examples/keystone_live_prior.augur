@@ -1,5 +1,5 @@
 # Example: a P(success) model whose Beta prior is produced by a live Keystone
-# query (see `augur-keystone`'s `prior_from_relational_query` /
+# query (see `tpt-augur-keystone`'s `prior_from_relational_query` /
 # `model_from_prior`). The numeric values below are placeholders for what a
 # Keystone `augur_feedback` query would emit at runtime.
 #

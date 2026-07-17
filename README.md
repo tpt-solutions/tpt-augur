@@ -48,16 +48,16 @@ integrations (Keystone DB, Locus) are tracked in [TODO.md](TODO.md) and the
 cargo build --workspace
 
 # Type-check a model
-cargo run -p augur-cli -- check examples/beta_binomial.augur
+cargo run -p tpt-tpt-augur-cli -- check examples/beta_binomial.augur
 
 # Run inference (engine auto-selected)
-cargo run -p augur-cli -- run examples/beta_binomial.augur
+cargo run -p tpt-tpt-augur-cli -- run examples/beta_binomial.augur
 
 # Pretty-print / canonicalise a model
-cargo run -p augur-cli -- fmt examples/beta_binomial.augur
+cargo run -p tpt-tpt-augur-cli -- fmt examples/beta_binomial.augur
 
 # Read a model from stdin and infer
-cargo run -p augur-cli -- repl < examples/normal_mean.augur
+cargo run -p tpt-tpt-augur-cli -- repl < examples/normal_mean.augur
 ```
 
 ## Language
@@ -85,12 +85,12 @@ Supported distributions: `Normal`, `HalfNormal`, `Beta`, `Gamma`, `Uniform`,
 
 | Crate | Role |
 | --- | --- |
-| `compiler/augur-frontend` | Lexer, AST, error-tolerant parser, formatter. |
-| `compiler/augur-ir` | Typed IR: lowering, type-checking, uncertainty propagation. |
-| `runtime/augur-runtime` | Inference engines (HMC, VI, PF, MH) and posterior summaries. |
-| `stdlib/augur-std` | Concrete distributions with log-densities and samplers. |
-| `pkg/augur-pkg` | Augur package manifest format (`Augur.toml`). |
-| `tools/augur-cli` | The `augur` command-line interface. |
+| `compiler/tpt-tpt-augur-frontend` | Lexer, AST, error-tolerant parser, formatter. |
+| `compiler/tpt-tpt-augur-ir` | Typed IR: lowering, type-checking, uncertainty propagation. |
+| `runtime/tpt-tpt-augur-runtime` | Inference engines (HMC, VI, PF, MH) and posterior summaries. |
+| `stdlib/tpt-tpt-augur-std` | Concrete distributions with log-densities and samplers. |
+| `pkg/tpt-tpt-augur-pkg` | Augur package manifest format (`Augur.toml`). |
+| `tools/tpt-tpt-augur-cli` | The `augur` command-line interface. |
 
 ## Examples
 
@@ -101,7 +101,7 @@ See [`examples/`](examples):
 - `bayesian_regression.augur` — Bayesian linear regression.
 - `ar1_timeseries.augur` — AR(1) time-series filtering.
 
-Run any of them with `cargo run -p augur-cli -- run examples/<file>`.
+Run any of them with `cargo run -p tpt-tpt-augur-cli -- run examples/<file>`.
 
 ## Testing
 

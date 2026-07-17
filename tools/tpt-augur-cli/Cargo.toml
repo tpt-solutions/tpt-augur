@@ -1,0 +1,23 @@
+[package]
+name = "tpt-augur-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur command-line interface: build, run, check, and format models"
+repository.workspace = true
+readme = "README.md"
+keywords = ["cli", "probabilistic-programming", "bayesian"]
+categories = ["command-line-utilities", "science"]
+
+[[bin]]
+name = "augur"
+path = "src/main.rs"
+
+[dependencies]
+tpt-augur-frontend = { workspace = true }
+tpt-augur-ir = { workspace = true }
+tpt-augur-runtime = { workspace = true }
+tpt-augur-mlir = { workspace = true }
+tpt-augur-pkg = { workspace = true }
+clap = { workspace = true }
+anyhow = { workspace = true }

@@ -70,77 +70,77 @@ dependencies = [
 ]
 
 [[package]]
-name = "augur-cli"
+name = "tpt-augur-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "augur-frontend",
- "augur-ir",
- "augur-mlir",
- "augur-pkg",
- "augur-runtime",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
+ "tpt-augur-mlir",
+ "tpt-augur-pkg",
+ "tpt-augur-runtime",
  "clap",
 ]
 
 [[package]]
-name = "augur-frontend"
+name = "tpt-augur-frontend"
 version = "0.1.0"
 dependencies = [
  "serde",
 ]
 
 [[package]]
-name = "augur-ir"
+name = "tpt-augur-ir"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-std",
+ "tpt-augur-frontend",
+ "tpt-augur-std",
  "serde",
 ]
 
 [[package]]
-name = "augur-keystone"
+name = "tpt-augur-keystone"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-ir",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
  "thiserror 1.0.69",
  "tokio",
  "tpt-sdk",
 ]
 
 [[package]]
-name = "augur-locus"
+name = "tpt-augur-locus"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-ir",
- "augur-runtime",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
+ "tpt-augur-runtime",
  "locus-core",
  "thiserror 1.0.69",
 ]
 
 [[package]]
-name = "augur-lsp"
+name = "tpt-augur-lsp"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-ir",
- "augur-mlir",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
+ "tpt-augur-mlir",
  "serde_json",
 ]
 
 [[package]]
-name = "augur-mlir"
+name = "tpt-augur-mlir"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-ir",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
  "serde",
 ]
 
 [[package]]
-name = "augur-pkg"
+name = "tpt-augur-pkg"
 version = "0.1.0"
 dependencies = [
  "serde",
@@ -150,17 +150,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "augur-runtime"
+name = "tpt-augur-runtime"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-ir",
- "augur-std",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
+ "tpt-augur-std",
  "rand",
 ]
 
 [[package]]
-name = "augur-std"
+name = "tpt-augur-std"
 version = "0.1.0"
 dependencies = [
  "rand",
@@ -168,13 +168,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "augur-tpt"
+name = "tpt-augur-tpt"
 version = "0.1.0"
 dependencies = [
- "augur-frontend",
- "augur-ir",
- "augur-mlir",
- "augur-runtime",
+ "tpt-augur-frontend",
+ "tpt-augur-ir",
+ "tpt-augur-mlir",
+ "tpt-augur-runtime",
  "serde",
  "thiserror 1.0.69",
 ]

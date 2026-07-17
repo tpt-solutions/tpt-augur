@@ -10,10 +10,10 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-  // augur-lsp is built by the workspace (`cargo build -p augur-lsp`) and
+  // tpt-augur-lsp is built by the workspace (`cargo build -p tpt-augur-lsp`) and
   // resolves next to this extension's node_modules in a dev setup, or on PATH.
   const command =
-    workspace.getConfiguration("augur").get<string>("lspPath") || "augur-lsp";
+    workspace.getConfiguration("augur").get<string>("lspPath") || "tpt-augur-lsp";
 
   const serverOptions: ServerOptions = {
     command,
@@ -37,7 +37,7 @@ export function activate(context: ExtensionContext) {
 
   client.start().then(
     () => {
-      // Custom request handled by augur-lsp: returns Graphviz DOT for the
+      // Custom request handled by tpt-augur-lsp: returns Graphviz DOT for the
       // inference graph of the active document.
       context.subscriptions.push(
         commands.registerCommand("augur.showInferenceGraph", async () => {

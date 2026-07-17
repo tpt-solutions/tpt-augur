@@ -1,6 +1,6 @@
 # Augur in Neovim
 
-Neovim's built-in LSP client can talk to `augur-lsp` directly — no plugin
+Neovim's built-in LSP client can talk to `tpt-augur-lsp` directly — no plugin
 required beyond `nvim-lspconfig` (or a manual `vim.lsp.start` call). Diagnostics,
 hover, and the inference-graph custom request all work.
 
@@ -9,15 +9,15 @@ hover, and the inference-graph custom request all work.
 Build the language server from this repo:
 
 ```sh
-cargo build -p augur-lsp
-# the binary lands at target/debug/augur-lsp
+cargo build -p tpt-augur-lsp
+# the binary lands at target/debug/tpt-augur-lsp
 ```
 
 Make it available on your `PATH`, or reference it by absolute path below.
 
 ## Option A — `nvim-lspconfig` (recommended)
 
-`augur-lsp` isn't bundled with `lspconfig`, but you can register it with
+`tpt-augur-lsp` isn't bundled with `lspconfig`, but you can register it with
 `lspconfig.configs`:
 
 ```lua
@@ -27,7 +27,7 @@ local configs = require("lspconfig.configs")
 if not configs.augur then
   configs.augur = {
     default_config = {
-      cmd = { "augur-lsp" },
+      cmd = { "tpt-augur-lsp" },
       filetypes = { "augur" },
       root_dir = lspconfig.util.root_pattern(".git", "Augur.toml"),
       single_file_support = true,
@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.lsp.start({
       name = "augur",
-      cmd = { "augur-lsp" },
+      cmd = { "tpt-augur-lsp" },
       root_dir = vim.fs.dirname(vim.fs.find({ ".git", "Augur.toml" }, { upward = true })[1]),
     })
   end,

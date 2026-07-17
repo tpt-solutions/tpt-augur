@@ -1,0 +1,15 @@
+[package]
+name = "tpt-augur-mlir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Probabilistic MLIR-compatible dialect, optimization passes, and TPTIR lowering for Augur"
+repository.workspace = true
+readme = "README.md"
+keywords = ["mlir", "probabilistic-programming", "compilers"]
+categories = ["compilers"]
+
+[dependencies]
+tpt-augur-frontend = { workspace = true }
+tpt-augur-ir = { workspace = true }
+serde = { workspace = true }

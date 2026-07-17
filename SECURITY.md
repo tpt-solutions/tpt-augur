@@ -26,7 +26,7 @@ Augur is a probabilistic programming language and inference runtime. The
 security-sensitive surfaces are:
 
 - Model parsing / lowering (malformed input handling).
-- The package manifest parser (`augur-pkg`), which reads `Augur.toml` files.
+- The package manifest parser (`tpt-augur-pkg`), which reads `Augur.toml` files.
 - Any future FFI / registry integration.
 
 We treat panics-on-malformed-input and unsound posterior estimates from

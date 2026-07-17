@@ -16,13 +16,13 @@ probabilistic programming language.
 
 ## Building the language server
 
-The extension talks to the `augur-lsp` binary, which is built from this repo:
+The extension talks to the `tpt-tpt-augur-lsp` binary, which is built from this repo:
 
 ```sh
-cargo build -p augur-lsp
+cargo build -p tpt-tpt-augur-lsp
 ```
 
-Make sure `augur-lsp` is on your `PATH`, or set the `augur.lspPath` setting to
+Make sure `tpt-tpt-augur-lsp` is on your `PATH`, or set the `augur.lspPath` setting to
 its absolute path.
 
 ## Developing the extension

@@ -13,7 +13,7 @@ known seed and reports `num_samples * num_chains / wall_time`. Run it yourself:
 
 ```sh
 cargo build --release --workspace
-time cargo run --release -p augur-cli -- run examples/beta_binomial.augur -n 2000 -c 4
+time cargo run --release -p tpt-augur-cli -- run examples/beta_binomial.augur -n 2000 -c 4
 ```
 
 Reported timings are wall-clock on a single developer machine and are intended

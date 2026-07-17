@@ -1,0 +1,18 @@
+[package]
+name = "tpt-augur-tpt"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur <-> tpt-gpu interop: hardware-target dispatch and TPTIR handoff"
+repository.workspace = true
+readme = "README.md"
+keywords = ["gpu", "probabilistic-programming", "interop"]
+categories = ["science"]
+
+[dependencies]
+tpt-augur-frontend = { workspace = true }
+tpt-augur-ir = { workspace = true }
+tpt-augur-mlir = { workspace = true }
+tpt-augur-runtime = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+thiserror = { workspace = true }

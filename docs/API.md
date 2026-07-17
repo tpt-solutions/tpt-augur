@@ -5,7 +5,7 @@ machine-generated reference is produced with `cargo doc --workspace` (output
 under `target/doc/`). Every item below is re-exported from a workspace
 crate; import the crates directly.
 
-## `augur-frontend` — lexing, parsing, formatting
+## `tpt-augur-frontend` — lexing, parsing, formatting
 
 | Item | Description |
 | --- | --- |
@@ -16,7 +16,7 @@ crate; import the crates directly.
 
 `ParseResult { program, diagnostics }` — `has_errors()`, `warnings()`.
 
-## `augur-ir` — typed IR, lowering, uncertainty
+## `tpt-augur-ir` — typed IR, lowering, uncertainty
 
 | Item | Description |
 | --- | --- |
@@ -30,7 +30,7 @@ crate; import the crates directly.
 
 `Env = HashMap<String, f64>`. `LowerResult { model, diagnostics }`.
 
-## `augur-runtime` — inference engines
+## `tpt-augur-runtime` — inference engines
 
 | Item | Description |
 | --- | --- |
@@ -45,7 +45,7 @@ crate; import the crates directly.
 
 Engines (each `run_all(model, opts) -> Trace`): `hmc`, `vi`, `pf`, `mh`.
 
-## `augur-std` — distribution library
+## `tpt-augur-std` — distribution library
 
 `Dist` enum: `Normal`, `HalfNormal`, `Beta`, `Gamma`, `Uniform`,
 `Exponential`, `Binomial`, `Poisson`, `Bernoulli`.
@@ -60,7 +60,7 @@ Engines (each `run_all(model, opts) -> Trace`): `hmc`, `vi`, `pf`, `mh`.
 | `std_normal<R: Rng>(&mut R) -> f64` | Standard-normal draw (Box–Muller). |
 | `sample_gamma(...)`, `sample_poisson(...)` | Specialised samplers. |
 
-## `augur-pkg` — package manifest
+## `tpt-augur-pkg` — package manifest
 
 | Item | Description |
 | --- | --- |
@@ -71,6 +71,6 @@ Engines (each `run_all(model, opts) -> Trace`): `hmc`, `vi`, `pf`, `mh`.
 | `Manifest::to_toml(&self) -> String` | Serialise back to TOML (round-trips). |
 | `Manifest::to_cargo_deps(&self) -> String` | Render Augur deps as a Cargo `[dependencies]` table (the dependency half of the Cargo/FFI wrapper). |
 
-## `augur-cli` — command line
+## `tpt-augur-cli` — command line
 
 `augur run|check|fmt|repl`. See `README.md` for flags and examples.

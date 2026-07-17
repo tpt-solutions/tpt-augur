@@ -1,0 +1,17 @@
+[package]
+name = "tpt-augur-ir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur typed IR: lowering, type-checking, and uncertainty propagation"
+repository.workspace = true
+readme = "README.md"
+keywords = ["probabilistic-programming", "compilers", "type-checking"]
+categories = ["compilers"]
+
+[dependencies]
+tpt-augur-frontend = { workspace = true }
+tpt-augur-std = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]

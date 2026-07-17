@@ -18,7 +18,7 @@ authors = ["A. Student"]
 description = "A Bayesian regression package"
 
 [dependencies]
-stdlib = { version = "0.1", path = "../stdlib/augur-std" }
+stdlib = { version = "0.1", path = "../stdlib/tpt-augur-std" }
 gpu-kernel = { version = "1.0", git = "https://github.com/PhillipC05/tpt-gpu" }
 ```
 
@@ -26,7 +26,7 @@ gpu-kernel = { version = "1.0", git = "https://github.com/PhillipC05/tpt-gpu" }
 - `[package]` — name + semver version (Cargo convention).
 - `[dependencies]` — name → `{ version, git?, path? }`.
 
-Parsed by `augur_pkg::Manifest` (`parse`, `load`, `to_toml`,
+Parsed by `tpt_augur_pkg::Manifest` (`parse`, `load`, `to_toml`,
 `to_cargo_deps`). Round-trips losslessly.
 
 ## Versioning
@@ -40,12 +40,12 @@ in `Cargo.toml` and `CHANGELOG.md` before each release
 
 Today, resolution is **delegated to Cargo**. Augur
 dependencies are ordinary Rust crates (e.g. the standard library is
-`augur-std`), so `Manifest::to_cargo_deps()` renders the
+`tpt-augur-std`), so `Manifest::to_cargo_deps()` renders the
 `[dependencies]` table a host crate declares to consume them:
 
 ```toml
 [dependencies]
-stdlib = { version = "0.1", path = "../stdlib/augur-std" }
+stdlib = { version = "0.1", path = "../stdlib/tpt-augur-std" }
 gpu-kernel = { version = "1.0", git = "https://github.com/PhillipC05/tpt-gpu" }
 ```
 

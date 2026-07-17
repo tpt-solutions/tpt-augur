@@ -25,7 +25,7 @@ Like its namesake, Augur reads the "signs" of noisy, uncertain data to predict t
 | **Compiler Backend** | **MLIR (Multi-Level IR)** | MLIR allows us to create custom probabilistic optimization passes before lowering the code to hardware-specific instructions. |
 | **Runtime Engine** | **Rust** | Provides memory safety, zero-cost abstractions, and fearless concurrency for the inference engines. |
 | **Hardware Execution** | **TPT GPU** | Augur acts as a primary "citizen" on TPT GPU, translating probabilistic math into highly optimized tensor operations. |
-| **Package Management** | **Cargo (via Rust FFI)** | Leveraging Rust's mature ecosystem for core math libraries, while providing an `augur-pkg` wrapper for Augur-specific modules. |
+| **Package Management** | **Cargo (via Rust FFI)** | Leveraging Rust's mature ecosystem for core math libraries, while providing an `tpt-augur-pkg` wrapper for Augur-specific modules. |
 | **Developer Tooling** | **LSP (Language Server Protocol)** | To provide IDE support (VS Code, Neovim) with real-time type-checking for distributions and inference graph visualization. |
 
 ## 4. Integration with TPT Ecosystem

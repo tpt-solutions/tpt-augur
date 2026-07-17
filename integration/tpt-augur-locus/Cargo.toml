@@ -1,0 +1,15 @@
+[package]
+name = "tpt-augur-locus"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Augur <-> TPT Locus bridge: probability-of-success scoring for agent strategies"
+repository.workspace = true
+publish = false
+
+[dependencies]
+tpt-augur-frontend = { workspace = true }
+tpt-augur-ir = { workspace = true }
+tpt-augur-runtime = { workspace = true }
+locus-core = { path = "../../../tpt-locus/locus-core" }
+thiserror = { workspace = true }
