@@ -6,7 +6,7 @@ license.workspace = true
 description = "Augur inference runtime: MH, HMC, variational, and particle-filter engines"
 repository.workspace = true
 readme = "README.md"
-keywords = ["mcmc", "bayesian", "inference", "probabilistic-programming"]
+keywords = ["mcmc", "bayesian", "inference", "probabilistic"]
 categories = ["science", "algorithms"]
 
 [dependencies]

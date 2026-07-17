@@ -6,7 +6,7 @@ license.workspace = true
 description = "Language server for the Augur probabilistic programming language"
 repository.workspace = true
 readme = "README.md"
-keywords = ["lsp", "language-server", "probabilistic-programming"]
+keywords = ["lsp", "language-server", "probabilistic"]
 categories = ["development-tools"]
 
 [dependencies]

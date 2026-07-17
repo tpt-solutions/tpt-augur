@@ -6,7 +6,7 @@ license.workspace = true
 description = "Augur <-> tpt-gpu interop: hardware-target dispatch and TPTIR handoff"
 repository.workspace = true
 readme = "README.md"
-keywords = ["gpu", "probabilistic-programming", "interop"]
+keywords = ["gpu", "probabilistic", "interop"]
 categories = ["science"]
 
 [dependencies]

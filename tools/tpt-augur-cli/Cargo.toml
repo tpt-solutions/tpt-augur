@@ -6,7 +6,7 @@ license.workspace = true
 description = "Augur command-line interface: build, run, check, and format models"
 repository.workspace = true
 readme = "README.md"
-keywords = ["cli", "probabilistic-programming", "bayesian"]
+keywords = ["cli", "probabilistic", "bayesian"]
 categories = ["command-line-utilities", "science"]
 
 [[bin]]

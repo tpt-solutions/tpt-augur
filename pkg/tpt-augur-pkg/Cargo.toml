@@ -6,7 +6,7 @@ license.workspace = true
 description = "Augur package manifest format and registry wrapper"
 repository.workspace = true
 readme = "README.md"
-keywords = ["package-manager", "manifest", "probabilistic-programming"]
+keywords = ["package-manager", "manifest", "probabilistic"]
 categories = ["development-tools"]
 
 [dependencies]

@@ -6,7 +6,7 @@ license.workspace = true
 description = "Augur lexer, AST, and error-tolerant parser"
 repository.workspace = true
 readme = "README.md"
-keywords = ["probabilistic-programming", "parser", "lexer", "ast"]
+keywords = ["probabilistic", "parser", "lexer", "ast"]
 categories = ["parser-implementations", "compilers"]
 
 [dependencies]

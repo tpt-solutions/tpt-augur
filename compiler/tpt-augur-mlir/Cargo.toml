@@ -6,7 +6,7 @@ license.workspace = true
 description = "Probabilistic MLIR-compatible dialect, optimization passes, and TPTIR lowering for Augur"
 repository.workspace = true
 readme = "README.md"
-keywords = ["mlir", "probabilistic-programming", "compilers"]
+keywords = ["mlir", "probabilistic", "compilers"]
 categories = ["compilers"]
 
 [dependencies]
