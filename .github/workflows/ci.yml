@@ -12,24 +12,31 @@ jobs:
   build-test:
     name: Build, test, lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tpt-augur
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: tpt-augur
       - name: Checkout tpt-locus (sibling dependency)
         uses: actions/checkout@v4
         with:
           repository: tpt-solutions/tpt-locus
-          path: ../tpt-locus
+          path: tpt-locus
       - name: Checkout tpt-keystone-db (sibling dependency)
         uses: actions/checkout@v4
         with:
           repository: tpt-solutions/tpt-keystone-db
-          path: ../tpt-keystone-db
+          path: tpt-keystone-db
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tpt-augur
       - name: Format check
         run: cargo fmt --check
       - name: Build

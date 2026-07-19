@@ -23,7 +23,7 @@ in this workspace, the corresponding items remain unchecked.
       <!-- verify: Cargo.lock -->
 - [x] Basic CI (build + test on push) <!-- verify: .github/workflows/ci.yml -->
 - [x] License, README, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md (match sibling repo
-      conventions) <!-- verify: LICENSE, README.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md -->
+      conventions) <!-- verify: LICENSE-APACHE, LICENSE-MIT, README.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md -->
 - [x] CI check that this TODO.md's checked-off items correspond to code that actually exists,
       so the checklist can't silently drift from reality <!-- verify: scripts/check_todo.py -->
 
