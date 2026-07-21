@@ -5,12 +5,12 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use anyhow::{anyhow, Context, Result};
+use clap::{Parser, Subcommand};
+use std::str::FromStr;
 use tpt_augur_frontend::{format_program, parse};
 use tpt_augur_ir::lower;
 use tpt_augur_mlir::{build_graph, to_dot};
 use tpt_augur_runtime::{select_engine, Engine, InferOptions};
-use clap::{Parser, Subcommand};
-use std::str::FromStr;
 
 #[derive(Parser)]
 #[command(

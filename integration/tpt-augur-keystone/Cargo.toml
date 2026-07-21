@@ -10,7 +10,7 @@ publish = false
 [dependencies]
 tpt-augur-frontend = { workspace = true }
 tpt-augur-ir = { workspace = true }
-tpt-sdk = { path = "../../../tpt-keystone-db/tpt-sdk" }
+tpt-sdk = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]

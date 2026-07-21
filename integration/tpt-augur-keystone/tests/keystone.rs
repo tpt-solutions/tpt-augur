@@ -142,5 +142,8 @@ async fn empty_result_is_an_error() {
         result: QueryResult::new(vec!["model_id".into(), "outcome".into()], vec![], None),
     };
     let err = prior_from_relational_query(&mut mock, "m", 2.0).await;
-    assert!(matches!(err, Err(tpt_augur_keystone::BridgeError::EmptyResult)));
+    assert!(matches!(
+        err,
+        Err(tpt_augur_keystone::BridgeError::EmptyResult)
+    ));
 }

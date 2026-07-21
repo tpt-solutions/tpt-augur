@@ -21,8 +21,8 @@
 use std::str::FromStr;
 use std::time::Instant;
 
-use tpt_augur_ir::Model;
 use serde::{Deserialize, Serialize};
+use tpt_augur_ir::Model;
 
 /// A hardware target tpt-gpu can dispatch Augur-sampled work to.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

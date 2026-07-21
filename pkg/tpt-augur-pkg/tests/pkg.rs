@@ -1,7 +1,7 @@
 //! Integration tests for Augur package management.
 
-use tpt_augur_pkg::{Manifest, PackageFile, PublishedPackage, Registry};
 use std::path::PathBuf;
+use tpt_augur_pkg::{Manifest, PackageFile, PublishedPackage, Registry};
 
 const SAMPLE: &str = r#"
 modules = [

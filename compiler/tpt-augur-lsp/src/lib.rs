@@ -6,10 +6,10 @@
 //! own small LSP server that reuses the diagnostics machinery rather than
 //! depending on a frontend built for a different language.
 
+use serde_json::{json, Value};
 use tpt_augur_frontend::{lexer, parse, Severity};
 use tpt_augur_ir::lower;
 use tpt_augur_mlir::{build_graph, to_dot};
-use serde_json::{json, Value};
 
 /// Analyze `src` and return a list of LSP-shaped `Diagnostic` objects
 /// (distribution type-checking diagnostics + parse errors).

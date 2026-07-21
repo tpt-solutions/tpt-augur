@@ -4,11 +4,11 @@
 
 pub mod lower;
 
-pub use tpt_augur_frontend::Expr;
 pub use lower::{
     eval, instantiate_dist, log_joint, lower, Diagnostic, Env, LowerResult, Model, ModelItem,
     Severity,
 };
+pub use tpt_augur_frontend::Expr;
 
 #[cfg(test)]
 mod tests {

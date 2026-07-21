@@ -1,8 +1,8 @@
 //! Shared helpers for the inference engines.
 
+use rand::Rng;
 use tpt_augur_ir::{eval, instantiate_dist, log_joint, Env, Model, ModelItem};
 use tpt_augur_std::seeded_rng;
-use rand::Rng;
 
 /// Build an initial point for a chain by instantiating each prior at its
 /// typical point (with light jitter so chains start dispersed but in-support).

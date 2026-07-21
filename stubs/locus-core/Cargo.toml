@@ -1,0 +1,7 @@
+[package]
+name = "locus-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Stub locus-core (real implementation lives in the tpt-locus sibling repo)"
+publish = false

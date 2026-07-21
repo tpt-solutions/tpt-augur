@@ -77,7 +77,9 @@ pub fn run_all(model: &Model, opts: &InferOptions) -> Trace {
         let mut g_mu = vec![0.0; d];
         let mut g_r = vec![0.0; d];
         for _ in 0..s {
-            let z: Vec<f64> = (0..d).map(|_| tpt_augur_std::std_normal(&mut rng)).collect();
+            let z: Vec<f64> = (0..d)
+                .map(|_| tpt_augur_std::std_normal(&mut rng))
+                .collect();
             let mut theta = vec![0.0; d];
             let mut dlogjac_du = vec![0.0; d];
             for k in 0..d {
@@ -128,7 +130,9 @@ pub fn run_all(model: &Model, opts: &InferOptions) -> Trace {
     let n = opts.num_samples * opts.num_chains.max(1);
     let mut samples = Vec::with_capacity(n);
     for _ in 0..n {
-        let z: Vec<f64> = (0..d).map(|_| tpt_augur_std::std_normal(&mut rng)).collect();
+        let z: Vec<f64> = (0..d)
+            .map(|_| tpt_augur_std::std_normal(&mut rng))
+            .collect();
         let theta: Vec<f64> = (0..d)
             .map(|k| transforms[k].forward(mu[k] + r[k].exp() * z[k]).0)
             .collect();

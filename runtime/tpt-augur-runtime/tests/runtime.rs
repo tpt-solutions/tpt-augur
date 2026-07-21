@@ -316,8 +316,8 @@ fn logit_jacobian_and_dlogjac() {
 
 #[test]
 fn transform_for_uniform_and_gamma_family_and_default() {
-    use tpt_augur_runtime::transforms::{transform_for, Transform};
     use tpt_augur_frontend::ast::Expr;
+    use tpt_augur_runtime::transforms::{transform_for, Transform};
 
     // Uniform with valid, non-default bounds.
     let uniform = Expr::Call {
@@ -366,16 +366,27 @@ fn transform_for_uniform_and_gamma_family_and_default() {
         name: "Uniform".into(),
         args: vec![Expr::Num(1.0)],
     };
-    assert!(matches!(transform_for(&uniform_bad_arity), Transform::Logit { lo, hi } if lo == 0.0 && hi == 1.0));
+    assert!(
+        matches!(transform_for(&uniform_bad_arity), Transform::Logit { lo, hi } if lo == 0.0 && hi == 1.0)
+    );
 
     // Gamma and Exponential both use the Log transform.
-    let gamma = Expr::Call { name: "Gamma".into(), args: vec![] };
+    let gamma = Expr::Call {
+        name: "Gamma".into(),
+        args: vec![],
+    };
     assert!(matches!(transform_for(&gamma), Transform::Log));
-    let expo = Expr::Call { name: "Exponential".into(), args: vec![] };
+    let expo = Expr::Call {
+        name: "Exponential".into(),
+        args: vec![],
+    };
     assert!(matches!(transform_for(&expo), Transform::Log));
 
     // Unknown distribution names default to Identity.
-    let unknown = Expr::Call { name: "Frobnicate".into(), args: vec![] };
+    let unknown = Expr::Call {
+        name: "Frobnicate".into(),
+        args: vec![],
+    };
     assert!(matches!(transform_for(&unknown), Transform::Identity));
 
     // Non-Call expressions default to Identity.

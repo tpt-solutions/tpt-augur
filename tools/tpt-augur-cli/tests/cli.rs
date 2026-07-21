@@ -135,9 +135,16 @@ fn run_with_explicit_engine_selects_it() {
         .args(["-e", "mh", "-n", "100", "-c", "1", "--warmup", "50"])
         .output()
         .unwrap();
-    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("engine: mh (auto-selected: false)"), "stdout was: {stdout}");
+    assert!(
+        stdout.contains("engine: mh (auto-selected: false)"),
+        "stdout was: {stdout}"
+    );
 }
 
 #[test]
@@ -157,7 +164,8 @@ fn build_with_invalid_model_fails() {
 #[test]
 fn build_writes_to_output_file() {
     let path = write_temp("build_out.augur", valid_model());
-    let out_path = std::env::temp_dir().join(format!("augur_cli_{}_build_out.tptir", std::process::id()));
+    let out_path =
+        std::env::temp_dir().join(format!("augur_cli_{}_build_out.tptir", std::process::id()));
     let _ = std::fs::remove_file(&out_path);
     let out = Command::new(BIN)
         .arg("build")
@@ -166,7 +174,11 @@ fn build_writes_to_output_file() {
         .arg(&out_path)
         .output()
         .unwrap();
-    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("wrote TPTIR"), "stdout was: {stdout}");
     let written = std::fs::read_to_string(&out_path).unwrap();
@@ -184,7 +196,8 @@ fn graph_with_invalid_model_fails() {
 #[test]
 fn graph_writes_to_output_file() {
     let path = write_temp("graph_out.augur", valid_model());
-    let out_path = std::env::temp_dir().join(format!("augur_cli_{}_graph_out.dot", std::process::id()));
+    let out_path =
+        std::env::temp_dir().join(format!("augur_cli_{}_graph_out.dot", std::process::id()));
     let _ = std::fs::remove_file(&out_path);
     let out = Command::new(BIN)
         .arg("graph")
@@ -193,9 +206,16 @@ fn graph_writes_to_output_file() {
         .arg(&out_path)
         .output()
         .unwrap();
-    assert!(out.status.success(), "stderr: {}", String::from_utf8_lossy(&out.stderr));
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("wrote inference graph"), "stdout was: {stdout}");
+    assert!(
+        stdout.contains("wrote inference graph"),
+        "stdout was: {stdout}"
+    );
     let written = std::fs::read_to_string(&out_path).unwrap();
     assert!(written.contains("digraph augur_inference_graph"));
     let _ = std::fs::remove_file(&out_path);
@@ -220,7 +240,8 @@ fn repl_with_invalid_model_fails() {
 
 #[test]
 fn publish_then_install_round_trip_via_cli() {
-    let registry_dir = std::env::temp_dir().join(format!("augur_cli_{}_registry", std::process::id()));
+    let registry_dir =
+        std::env::temp_dir().join(format!("augur_cli_{}_registry", std::process::id()));
     let _ = std::fs::remove_dir_all(&registry_dir);
 
     let manifest_path = write_temp(
@@ -243,9 +264,13 @@ fn publish_then_install_round_trip_via_cli() {
         String::from_utf8_lossy(&publish_out.stderr)
     );
     let publish_stdout = String::from_utf8_lossy(&publish_out.stdout);
-    assert!(publish_stdout.contains("published cli-pkg@0.1.0"), "stdout was: {publish_stdout}");
+    assert!(
+        publish_stdout.contains("published cli-pkg@0.1.0"),
+        "stdout was: {publish_stdout}"
+    );
 
-    let dest_dir = std::env::temp_dir().join(format!("augur_cli_{}_install_dest", std::process::id()));
+    let dest_dir =
+        std::env::temp_dir().join(format!("augur_cli_{}_install_dest", std::process::id()));
     let _ = std::fs::remove_dir_all(&dest_dir);
     let install_out = Command::new(BIN)
         .env("AUGUR_REGISTRY", &registry_dir)
@@ -262,7 +287,10 @@ fn publish_then_install_round_trip_via_cli() {
         String::from_utf8_lossy(&install_out.stderr)
     );
     let install_stdout = String::from_utf8_lossy(&install_out.stdout);
-    assert!(install_stdout.contains("installed"), "stdout was: {install_stdout}");
+    assert!(
+        install_stdout.contains("installed"),
+        "stdout was: {install_stdout}"
+    );
 
     let _ = std::fs::remove_dir_all(&registry_dir);
     let _ = std::fs::remove_dir_all(&dest_dir);
@@ -270,9 +298,13 @@ fn publish_then_install_round_trip_via_cli() {
 
 #[test]
 fn install_missing_package_fails() {
-    let registry_dir = std::env::temp_dir().join(format!("augur_cli_{}_registry_missing", std::process::id()));
+    let registry_dir =
+        std::env::temp_dir().join(format!("augur_cli_{}_registry_missing", std::process::id()));
     let _ = std::fs::remove_dir_all(&registry_dir);
-    let dest_dir = std::env::temp_dir().join(format!("augur_cli_{}_install_dest_missing", std::process::id()));
+    let dest_dir = std::env::temp_dir().join(format!(
+        "augur_cli_{}_install_dest_missing",
+        std::process::id()
+    ));
     let _ = std::fs::remove_dir_all(&dest_dir);
 
     let out = Command::new(BIN)

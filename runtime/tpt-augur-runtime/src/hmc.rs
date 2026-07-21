@@ -64,7 +64,9 @@ pub fn run(model: &Model, opts: &InferOptions, chain_idx: usize, out: &mut Vec<V
     };
 
     for _it in 0..total {
-        let p0: Vec<f64> = (0..d).map(|_| tpt_augur_std::std_normal(&mut rng)).collect();
+        let p0: Vec<f64> = (0..d)
+            .map(|_| tpt_augur_std::std_normal(&mut rng))
+            .collect();
         let mut w_prop = w.clone();
         let mut p = p0.clone();
         // Symmetric position leapfrog (q-half, p-full, q-half).

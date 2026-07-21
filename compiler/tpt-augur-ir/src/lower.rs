@@ -8,9 +8,9 @@
 
 use std::collections::HashMap;
 
+use serde::{Deserialize, Serialize};
 use tpt_augur_frontend::{BinOp, CmpOp, Expr, Program, Span, Stmt};
 use tpt_augur_std::Dist;
-use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum ModelItem {

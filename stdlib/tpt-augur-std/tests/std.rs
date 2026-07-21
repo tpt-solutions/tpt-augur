@@ -244,16 +244,40 @@ fn seeded_rng_is_reproducible() {
 fn half_normal_logp() {
     let d = Dist::HalfNormal { sigma: 1.0 };
     assert_eq!(d.logp(-1.0), f64::NEG_INFINITY);
-    assert_eq!(Dist::HalfNormal { sigma: -1.0 }.logp(0.5), f64::NEG_INFINITY);
+    assert_eq!(
+        Dist::HalfNormal { sigma: -1.0 }.logp(0.5),
+        f64::NEG_INFINITY
+    );
     let lp = d.logp(0.0);
     assert!((lp - 2.0f64.ln()).abs() < 1e-12, "lp={lp}");
 }
 
 #[test]
 fn gamma_logp_invalid_params() {
-    assert_eq!(Dist::Gamma { shape: -1.0, rate: 1.0 }.logp(1.0), f64::NEG_INFINITY);
-    assert_eq!(Dist::Gamma { shape: 1.0, rate: -1.0 }.logp(1.0), f64::NEG_INFINITY);
-    assert_eq!(Dist::Gamma { shape: 1.0, rate: 1.0 }.logp(-1.0), f64::NEG_INFINITY);
+    assert_eq!(
+        Dist::Gamma {
+            shape: -1.0,
+            rate: 1.0
+        }
+        .logp(1.0),
+        f64::NEG_INFINITY
+    );
+    assert_eq!(
+        Dist::Gamma {
+            shape: 1.0,
+            rate: -1.0
+        }
+        .logp(1.0),
+        f64::NEG_INFINITY
+    );
+    assert_eq!(
+        Dist::Gamma {
+            shape: 1.0,
+            rate: 1.0
+        }
+        .logp(-1.0),
+        f64::NEG_INFINITY
+    );
 }
 
 #[test]
@@ -290,8 +314,14 @@ fn bernoulli_logp_both_outcomes_and_invalid_p() {
 
 #[test]
 fn binomial_logp_invalid_p() {
-    assert_eq!(Dist::Binomial { n: 5.0, p: -0.1 }.logp(1.0), f64::NEG_INFINITY);
-    assert_eq!(Dist::Binomial { n: 5.0, p: 1.1 }.logp(1.0), f64::NEG_INFINITY);
+    assert_eq!(
+        Dist::Binomial { n: 5.0, p: -0.1 }.logp(1.0),
+        f64::NEG_INFINITY
+    );
+    assert_eq!(
+        Dist::Binomial { n: 5.0, p: 1.1 }.logp(1.0),
+        f64::NEG_INFINITY
+    );
 }
 
 #[test]
@@ -332,7 +362,10 @@ fn remaining_typical_points() {
 #[test]
 fn gamma_sample_shape_below_one_uses_boost_branch() {
     let mut rng = seeded_rng(41);
-    let d = Dist::Gamma { shape: 0.3, rate: 1.5 };
+    let d = Dist::Gamma {
+        shape: 0.3,
+        rate: 1.5,
+    };
     for _ in 0..500 {
         let x = d.sample(&mut rng);
         assert!(x > 0.0);

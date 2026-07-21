@@ -11,5 +11,5 @@ publish = false
 tpt-augur-frontend = { workspace = true }
 tpt-augur-ir = { workspace = true }
 tpt-augur-runtime = { workspace = true }
-locus-core = { path = "../../../tpt-locus/locus-core" }
+locus-core = { workspace = true }
 thiserror = { workspace = true }
