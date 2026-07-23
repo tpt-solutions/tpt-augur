@@ -29,16 +29,16 @@ fn feedback_result() -> QueryResult {
         vec!["model_id".into(), "outcome".into()],
         vec![
             Row::new(
-                ["model_id", "outcome"],
-                [Some(b"m".to_vec()), Some(b"success".to_vec())],
+                &["model_id", "outcome"],
+                &[Some(b"m".to_vec()), Some(b"success".to_vec())],
             ),
             Row::new(
-                ["model_id", "outcome"],
-                [Some(b"m".to_vec()), Some(b"success".to_vec())],
+                &["model_id", "outcome"],
+                &[Some(b"m".to_vec()), Some(b"success".to_vec())],
             ),
             Row::new(
-                ["model_id", "outcome"],
-                [Some(b"m".to_vec()), Some(b"failure".to_vec())],
+                &["model_id", "outcome"],
+                &[Some(b"m".to_vec()), Some(b"failure".to_vec())],
             ),
         ],
         None,
@@ -50,12 +50,12 @@ fn memory_result() -> QueryResult {
         vec!["strategy_id".into(), "similarity".into()],
         vec![
             Row::new(
-                ["strategy_id", "similarity"],
-                [Some(b"s".to_vec()), Some(b"0.8".to_vec())],
+                &["strategy_id", "similarity"],
+                &[Some(b"s".to_vec()), Some(b"0.8".to_vec())],
             ),
             Row::new(
-                ["strategy_id", "similarity"],
-                [Some(b"s".to_vec()), Some(b"0.4".to_vec())],
+                &["strategy_id", "similarity"],
+                &[Some(b"s".to_vec()), Some(b"0.4".to_vec())],
             ),
         ],
         None,

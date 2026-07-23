@@ -262,12 +262,12 @@ mod tests {
             vec!["strategy_id".into(), "similarity".into()],
             vec![
                 Row::new(
-                    ["strategy_id", "similarity"],
-                    [Some(b"s".to_vec()), Some(b"0.8".to_vec())],
+                    &["strategy_id", "similarity"],
+                    &[Some(b"s".to_vec()), Some(b"0.8".to_vec())],
                 ),
                 Row::new(
-                    ["strategy_id", "similarity"],
-                    [Some(b"s".to_vec()), Some(b"0.4".to_vec())],
+                    &["strategy_id", "similarity"],
+                    &[Some(b"s".to_vec()), Some(b"0.4".to_vec())],
                 ),
             ],
             None,
