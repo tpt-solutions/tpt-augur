@@ -241,16 +241,16 @@ mod tests {
             vec!["model_id".into(), "outcome".into()],
             vec![
                 Row::new(
-                    ["model_id", "outcome"],
-                    [Some(b"m".to_vec()), Some(b"success".to_vec())],
+                    &["model_id", "outcome"],
+                    &[Some(b"m".to_vec()), Some(b"success".to_vec())],
                 ),
                 Row::new(
-                    ["model_id", "outcome"],
-                    [Some(b"m".to_vec()), Some(b"success".to_vec())],
+                    &["model_id", "outcome"],
+                    &[Some(b"m".to_vec()), Some(b"success".to_vec())],
                 ),
                 Row::new(
-                    ["model_id", "outcome"],
-                    [Some(b"m".to_vec()), Some(b"failure".to_vec())],
+                    &["model_id", "outcome"],
+                    &[Some(b"m".to_vec()), Some(b"failure".to_vec())],
                 ),
             ],
             None,
